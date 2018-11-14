@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей Дейсан](https://up.htmlacademy.ru/javascript/16/user/528537).
-* Наставник: `Неизвестно`.
+* Наставник: [Виталий Усик](https://htmlacademy.ru/profile/id235226).
 
 ---
 
