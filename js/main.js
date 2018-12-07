@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 // Константы
 var PRICE_MIN = 1000;
@@ -9,7 +9,7 @@ var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
-// var PROFILE_NUMBER = 8;  // Переменная для количества обьектов
+// var PROFILE_NUMBER = 8; // Переменная для количества обьектов
 
 // Массивы
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
@@ -18,16 +18,35 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
+// Случайное число
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-var getRandomPrice = function (min, max) {
-  return Math.round((Math.floor(Math.random() * (max - min)) + min) / 100) * 100;  // Специально сделал с округлением до сотен
+// Случайная число с округлением
+var getRandomNumberRound = function (min, max) {
+  return Math.round((Math.floor(Math.random() * (max - min)) + min) / 100) * 100; // Специально сделал цену с округлением до сотен
 };
 
+// Случаные данные из массива
 var getRandomList = function (array) {
   return array[Math.floor(Math.random() * array.length)];
+};
+
+// Случайная длина массива
+var getRandomSliceList = function (array) {
+  return array.slice((getRandomNumber(0, array.length)));
+};
+
+// Перемешивание массива
+var getShuffleList = function (array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
 };
 
 var profile = {
@@ -38,15 +57,15 @@ var profile = {
   offer: {
     title: getRandomList(TITLES),
     address: 'location.' + getRandomNumber(100, 1000) + ',' + 'location.' + getRandomNumber(100, 1000),
-    price: getRandomPrice(PRICE_MIN, PRICE_MAX),
+    price: getRandomNumberRound(PRICE_MIN, PRICE_MAX),
     type: getRandomList(TYPES),
     rooms: getRandomNumber(ROOMS_MIN, ROOMS_MAX),
     guests: getRandomNumber(GUESTS_MIN, GUESTS_MAX),
     checkin: getRandomList(TIMES),
     checkout: getRandomList(TIMES),
-    features: FEATURES,
+    features: getRandomSliceList(FEATURES),
     description: '',
-    photos: PHOTOS
+    photos: getShuffleList(PHOTOS)
   },
 
   location: {
@@ -56,7 +75,7 @@ var profile = {
 };
 
 
-// Вывод для теста
+// Вывод в консоль для теста
 
 // console.log('avatar = ' + profile.author.avatar);
 
