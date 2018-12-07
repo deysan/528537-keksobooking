@@ -1,3 +1,4 @@
+'use strict'
 
 // Константы
 var PRICE_MIN = 1000;
@@ -8,22 +9,22 @@ var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
-var PROFILE_NUMBER = 8;
+// var PROFILE_NUMBER = 8;  // Переменная для количества обьектов
 
 // Массивы
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
-var TIMES = ['12:00', '13:00','14:00']
+var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
-}
+};
 
 var getRandomPrice = function (min, max) {
-  return Math.round((Math.floor(Math.random() * (max - min)) + min) / 100) * 100; //Специально сделал с округлением до сотен
-}
+  return Math.round((Math.floor(Math.random() * (max - min)) + min) / 100) * 100;  // Специально сделал с округлением до сотен
+};
 
 var getRandomList = function (array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -55,22 +56,24 @@ var profile = {
 };
 
 
-console.log('avatar = ' + profile.author.avatar);
+// Вывод для теста
 
-console.log('title = ' + profile.offer.title);
-console.log('address = ' + profile.offer.address);
-console.log('price = ' + profile.offer.price);
-console.log('type = ' + profile.offer.type);
-console.log('rooms = ' + profile.offer.rooms);
-console.log('guests = ' + profile.offer.guests);
-console.log('checkin = ' + profile.offer.checkin);
-console.log('checkout = ' + profile.offer.checkout);
-console.log('features = ' + profile.offer.features);
-console.log('description = ' + profile.offer.description);
-console.log('photos = ' + profile.offer.photos);
+// console.log('avatar = ' + profile.author.avatar);
 
-console.log('locationX = ' + profile.location.locationX);
-console.log('locationY = ' + profile.location.locationY);
+// console.log('title = ' + profile.offer.title);
+// console.log('address = ' + profile.offer.address);
+// console.log('price = ' + profile.offer.price);
+// console.log('type = ' + profile.offer.type);
+// console.log('rooms = ' + profile.offer.rooms);
+// console.log('guests = ' + profile.offer.guests);
+// console.log('checkin = ' + profile.offer.checkin);
+// console.log('checkout = ' + profile.offer.checkout);
+// console.log('features = ' + profile.offer.features);
+// console.log('description = ' + profile.offer.description);
+// console.log('photos = ' + profile.offer.photos);
+
+// console.log('locationX = ' + profile.location.locationX);
+// console.log('locationY = ' + profile.location.locationY);
 
 
-var map = document.querySelector('.map').classList.remove('map--faded');
+// var map = document.querySelector('.map').classList.remove('map--faded');
