@@ -95,14 +95,42 @@ var profile = {
 // console.log('locationY = ' + profile.location.locationY);
 
 
+// Обьявления на странице
+
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
-var mapPin = map.querySelector('.map__pin');
-mapPin.style.left = profile.location.locationX + 'px';
-mapPin.style.top = profile.location.locationY + 'px';
-mapPin.querySelector('img').src = profile.author.avatar;
-mapPin.querySelector('img').alt = profile.offer.title;
+
+var generateOffersElement = function (profile) {
+  var pointer = document.querySelector('#pin').cloneNode(true);
+  var mapPin = map.querySelector('.map__pin');
+  var avatar = mapPin.querySelector('img');
+  mapPin.style.left = profile.location.locationX + 'px';
+  mapPin.style.top = profile.location.locationY + 'px';
+  avatar.src = profile.author.avatar;
+  avatar.alt = profile.offer.title;
+
+  return pointer;
+};
+
+// var renderOffers = function (array) {
+//   var fragment = document.createDocumentFragment();
+//   for (var i = 0; i < array.length; i++) {
+//     fragment.appendChild(getPointerElement(array[i], i));
+//   }
+//   return fragment;
+// };
+
+
 
 // console.log('left = ' + mapPin.style.left);
 // console.log('top = ' + mapPin.style.top);
+
+
+// var activate = function () {
+//   var offers = generateOffers(); // в цикле генерируем 8 объявлений со случайными данными
+//   renderOffers(offers); // рисуем объявления на странице (аналогично учебному с помощью fragment
+//   renderCard(offers[0]); // создаем карточку объявления на основе первого элемента из массива объявлений
+// }
+
+// activate();
