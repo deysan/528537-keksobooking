@@ -13,7 +13,7 @@ var OFFERS_NUMBER = 8;
 
 // Массивы
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
-var TYPES = [{type:'palace',name:'Дворец'}, {type:'flat',name:'Квартира'}, {type:'house',name:'Дом'}, {type:'bungalo',name:'Бунгало'}];
+var TYPES = [{type: 'palace', name: 'Дворец'}, {type: 'flat', name: 'Квартира'}, {type: 'house', name: 'Дом'}, {type: 'bungalo', name: 'Бунгало'}];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -22,6 +22,7 @@ var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.g
 var map = document.querySelector('.map');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
 
 // Случайное число
 var getRandomNumber = function (min, max) {
@@ -90,6 +91,18 @@ var generateOffers = function () {
   return offers;
 };
 
+var renderPhoto = function (array) {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < array.offer.photos.length; i++) {
+    var photo = photoTemplate.cloneNode(true);
+    photo.src = array.offer.photos[i];
+    fragment.appendChild(photo);
+  }
+
+  return fragment;
+};
+
 // Обьявления на странице
 var openMap = function () {
   map.classList.remove('map--faded');
@@ -111,7 +124,6 @@ var renderOffers = function (array) {
   for (var i = 0; i < array.length; i++) {
     fragment.appendChild(generateOffersElement(array[i]));
   }
-
   map.appendChild(fragment);
 };
 
@@ -126,7 +138,7 @@ var generateCard = function (offer) {
   card.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
   card.querySelector('.popup__features').textContent = offer.offer.features;
   card.querySelector('.popup__description').textContent = offer.offer.description;
-  card.querySelector('.popup__photo').src = offer.offer.photos;
+  card.querySelector('.popup__photos').appendChild(renderPhoto(offer));
   card.querySelector('.popup__avatar').src = offer.author.avatar;
 
   return card;
@@ -135,7 +147,6 @@ var generateCard = function (offer) {
 var renderCard = function (array) {
   var fragment = document.createDocumentFragment();
   fragment.appendChild(generateCard(array));
-
   map.appendChild(fragment);
 };
 
