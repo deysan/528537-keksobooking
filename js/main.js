@@ -113,7 +113,7 @@ map.classList.remove('map--faded');
 
 
 var generateOffersElement = function () {
-  var pointer = document.querySelector('#pin').cloneNode(true);
+  var pin = document.querySelector('#pin').cloneNode(true);
   var mapPin = map.querySelector('.map__pin');
   var avatar = mapPin.querySelector('img');
   mapPin.style.left = profile.location.locationX + 'px';
@@ -121,7 +121,7 @@ var generateOffersElement = function () {
   avatar.src = profile.author.avatar;
   avatar.alt = profile.offer.title;
 
-  return pointer;
+  return pin;
 };
 
 
@@ -133,12 +133,39 @@ var renderOffers = function () {
   return fragment;
 };
 
+// Данные первого обьявления
+
+var generateCard = function () {
+  var card = document.querySelector('#card').cloneNode(true);
+  var mapCard = card.querySelector('.map__card');
+
+  mapCard.querySelector('.popup__title').textContent = profile.offer.title;
+  mapCard.querySelector('.popup__text--address').textContent = profile.offer.address;
+  mapCard.querySelector('.popup__text--price').textContent = profile.offer.price + '₽/ночь';
+  mapCard.querySelector('.popup__type').textContent = profile.offer.type;
+  mapCard.querySelector('.popup__text--capacity').textContent = profile.offer.rooms + ' комнаты для ' + profile.offer.guests + ' гостей';
+  mapCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + profile.offer.checkin + ', выезд до ' + profile.offer.checkout;
+  mapCard.querySelector('.popup__features').textContent = profile.offer.features;
+  mapCard.querySelector('.popup__description').textContent = profile.offer.description;
+  mapCard.querySelector('.popup__photos').src = profile.offer.photos;
+  mapCard.querySelector('.popup__avatar').src = profile.author.avatar;
+
+  return card;
+};
+
+var renderCard = function (profile) {
+  var fragment = document.createDocumentFragment();
+  fragment.appendChild(profile);
+  return fragment;
+};
+
+// Отрисовка на карте
 
 var activate = function () {
   var offers = generateOffers(); // в цикле генерируем 8 объявлений со случайными данными
   renderOffers(offers); // рисуем объявления на странице (аналогично учебному с помощью fragment
-  // renderCard(offers[0]); // создаем карточку объявления на основе первого элемента из массива объявлений
-}
+  renderCard(profile[0]); // создаем карточку объявления на основе первого элемента из массива объявлений
+};
 
 activate();
 
