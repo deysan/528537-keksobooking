@@ -20,6 +20,8 @@ var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.g
 
 // Переменные
 var map = document.querySelector('.map');
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
 // Случайное число
 var getRandomNumber = function (min, max) {
@@ -90,14 +92,13 @@ var openMap = function () {
   map.classList.remove('map--faded');
 };
 
-var generateOffersElement = function (offers) {
-  var pin = document.querySelector('#pin').cloneNode(true);
-  var mapPin = map.querySelector('.map__pin');
-  var avatar = mapPin.querySelector('img');
-  mapPin.style.left = offers.location.locationX + 'px';
-  mapPin.style.top = offers.location.locationY + 'px';
-  avatar.src = offers.author.avatar;
-  avatar.alt = offers.offer.title;
+var generateOffersElement = function (offer) {
+  var pin = pinTemplate.cloneNode(true);
+  var avatar = pin.querySelector('img');
+  pin.style.left = offer.location.locationX + 'px';
+  pin.style.top = offer.location.locationY + 'px';
+  avatar.src = offer.author.avatar;
+  avatar.alt = offer.offer.title;
 
   return pin;
 };
@@ -108,23 +109,22 @@ var renderOffers = function (array) {
     fragment.appendChild(generateOffersElement(array[i]));
   }
 
-  return fragment;
+  map.appendChild(fragment);
 };
 
 // Вывод данных обьявления
-var generateCard = function (offers) {
-  var card = document.querySelector('#card').cloneNode(true);
-  var mapCard = card.querySelector('.map__card');
-  mapCard.querySelector('.popup__title').textContent = offers.offer.title;
-  mapCard.querySelector('.popup__text--address').textContent = offers.offer.address;
-  mapCard.querySelector('.popup__text--price').textContent = offers.offer.price + '₽/ночь';
-  mapCard.querySelector('.popup__type').textContent = offers.offer.type;
-  mapCard.querySelector('.popup__text--capacity').textContent = offers.offer.rooms + ' комнаты для ' + offers.offer.guests + ' гостей';
-  mapCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + offers.offer.checkin + ', выезд до ' + offers.offer.checkout;
-  mapCard.querySelector('.popup__features').textContent = offers.offer.features;
-  mapCard.querySelector('.popup__description').textContent = offers.offer.description;
-  mapCard.querySelector('.popup__photos').src = offers.offer.photos;
-  mapCard.querySelector('.popup__avatar').src = offers.author.avatar;
+var generateCard = function (offer) {
+  var card = cardTemplate.cloneNode(true);
+  card.querySelector('.popup__title').textContent = offer.offer.title;
+  card.querySelector('.popup__text--address').textContent = offer.offer.address;
+  card.querySelector('.popup__text--price').textContent = offer.offer.price + '₽/ночь';
+  card.querySelector('.popup__type').textContent = offer.offer.type;
+  card.querySelector('.popup__text--capacity').textContent = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
+  card.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
+  card.querySelector('.popup__features').textContent = offer.offer.features;
+  card.querySelector('.popup__description').textContent = offer.offer.description;
+  card.querySelector('.popup__photos').src = offer.offer.photos;
+  card.querySelector('.popup__avatar').src = offer.author.avatar;
 
   return card;
 };
@@ -133,7 +133,7 @@ var renderCard = function (array) {
   var fragment = document.createDocumentFragment();
   fragment.appendChild(generateCard(array));
 
-  return fragment;
+  map.appendChild(fragment);
 };
 
 // Отрисовка на карте
