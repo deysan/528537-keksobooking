@@ -56,7 +56,7 @@ var profile = {
 
   offer: {
     title: getRandomList(TITLES),
-    address: 'location.' + getRandomNumber(100, 1000) + ',' + 'location.' + getRandomNumber(100, 1000),
+    address: 'location.' + getRandomNumber(100, 1000) + ',' + 'location.' + getRandomNumber(100, 1000), // Временное решение
     price: getRandomNumberRound(PRICE_MIN, PRICE_MAX),
     type: getRandomList(TYPES),
     rooms: getRandomNumber(ROOMS_MIN, ROOMS_MAX),
@@ -95,4 +95,14 @@ var profile = {
 // console.log('locationY = ' + profile.location.locationY);
 
 
-// var map = document.querySelector('.map').classList.remove('map--faded');
+var map = document.querySelector('.map');
+map.classList.remove('map--faded');
+
+var mapPin = map.querySelector('.map__pin');
+mapPin.style.left = profile.location.locationX + 'px';
+mapPin.style.top = profile.location.locationY + 'px';
+mapPin.querySelector('img').src = profile.author.avatar;
+mapPin.querySelector('img').alt = profile.offer.title;
+
+// console.log('left = ' + mapPin.style.left);
+// console.log('top = ' + mapPin.style.top);
