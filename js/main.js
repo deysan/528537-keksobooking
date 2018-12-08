@@ -133,9 +133,9 @@ var renderOffers = function () {
   return fragment;
 };
 
-// Данные первого обьявления
+// Вывод данных обьявления
 
-var generateCard = function () {
+var generateCard = function (profile) {
   var card = document.querySelector('#card').cloneNode(true);
   var mapCard = card.querySelector('.map__card');
 
@@ -155,7 +155,7 @@ var generateCard = function () {
 
 var renderCard = function (profile) {
   var fragment = document.createDocumentFragment();
-  fragment.appendChild(profile);
+  fragment.appendChild(generateCard(profile));
   return fragment;
 };
 
