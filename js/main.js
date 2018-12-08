@@ -9,7 +9,7 @@ var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
-// var PROFILE_NUMBER = 8; // Переменная для количества обьектов
+var PROFILE_NUMBER = 8; // Переменная для количества обьектов
 
 // Массивы
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
@@ -49,29 +49,40 @@ var getShuffleList = function (array) {
   return array;
 };
 
-var profile = {
-  author: {
-    avatar: 'img/avatars/user0' + getRandomNumber(1, 8) + '.png'
-  },
 
-  offer: {
-    title: getRandomList(TITLES),
-    address: 'location.' + getRandomNumber(100, 1000) + ',' + 'location.' + getRandomNumber(100, 1000), // Временное решение
-    price: getRandomNumberRound(PRICE_MIN, PRICE_MAX),
-    type: getRandomList(TYPES),
-    rooms: getRandomNumber(ROOMS_MIN, ROOMS_MAX),
-    guests: getRandomNumber(GUESTS_MIN, GUESTS_MAX),
-    checkin: getRandomList(TIMES),
-    checkout: getRandomList(TIMES),
-    features: getRandomSliceList(FEATURES),
-    description: '',
-    photos: getShuffleList(PHOTOS)
-  },
+var generateOffers = function () {
 
-  location: {
-    locationX: getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y),
-    locationY: getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y)
+  var profile = [];
+
+  for (var i = 0; i <= PROFILE_NUMBER; i++) {
+
+    profile[i] = {
+      author: {
+        avatar: 'img/avatars/user0' + getRandomNumber(1, 8) + '.png'
+      },
+
+      offer: {
+        title: getRandomList(TITLES),
+        address: 'location.' + getRandomNumber(100, 1000) + ',' + 'location.' + getRandomNumber(100, 1000), // Временное решение
+        price: getRandomNumberRound(PRICE_MIN, PRICE_MAX),
+        type: getRandomList(TYPES),
+        rooms: getRandomNumber(ROOMS_MIN, ROOMS_MAX),
+        guests: getRandomNumber(GUESTS_MIN, GUESTS_MAX),
+        checkin: getRandomList(TIMES),
+        checkout: getRandomList(TIMES),
+        features: getRandomSliceList(FEATURES),
+        description: '',
+        photos: getShuffleList(PHOTOS)
+      },
+
+      location: {
+        locationX: getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y),
+        locationY: getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y)
+      }
+    };
   }
+
+  return profile;
 };
 
 
@@ -101,7 +112,7 @@ var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
 
-var generateOffersElement = function (profile) {
+var generateOffersElement = function () {
   var pointer = document.querySelector('#pin').cloneNode(true);
   var mapPin = map.querySelector('.map__pin');
   var avatar = mapPin.querySelector('img');
@@ -113,24 +124,24 @@ var generateOffersElement = function (profile) {
   return pointer;
 };
 
-// var renderOffers = function (array) {
-//   var fragment = document.createDocumentFragment();
-//   for (var i = 0; i < array.length; i++) {
-//     fragment.appendChild(getPointerElement(array[i], i));
-//   }
-//   return fragment;
-// };
 
+var renderOffers = function () {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < profile.length; i++) {
+    fragment.appendChild(generateOffersElement(profile[i]));
+  }
+  return fragment;
+};
+
+
+var activate = function () {
+  var offers = generateOffers(); // в цикле генерируем 8 объявлений со случайными данными
+  renderOffers(offers); // рисуем объявления на странице (аналогично учебному с помощью fragment
+  // renderCard(offers[0]); // создаем карточку объявления на основе первого элемента из массива объявлений
+}
+
+activate();
 
 
 // console.log('left = ' + mapPin.style.left);
 // console.log('top = ' + mapPin.style.top);
-
-
-// var activate = function () {
-//   var offers = generateOffers(); // в цикле генерируем 8 объявлений со случайными данными
-//   renderOffers(offers); // рисуем объявления на странице (аналогично учебному с помощью fragment
-//   renderCard(offers[0]); // создаем карточку объявления на основе первого элемента из массива объявлений
-// }
-
-// activate();
