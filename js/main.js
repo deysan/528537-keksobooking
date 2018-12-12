@@ -7,6 +7,8 @@ var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
+var LOCATION_MIN_X = 100;
+var LOCATION_MAX_X = 1000;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
 var OFFERS_NUMBER = 8;
@@ -19,7 +21,7 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 // Переменные
-var map = document.querySelector('.map');
+var mapElement = document.querySelector('.map');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
@@ -35,7 +37,12 @@ var getRandomNumberRound = function (min, max) {
 };
 
 // Случаные данные из массива
-var getRandomList = function (array) {
+var getRandomFromList = function (array) {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
+// Случайные данные из массива без повторений
+var getRandomFromListNoRepeat = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
@@ -59,23 +66,23 @@ var generateOffers = function () {
   var offers = [];
   for (var i = 0; i < OFFERS_NUMBER; i++) {
 
-    var locationX = getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y);
+    var locationX = getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X);
     var locationY = getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y);
 
     offers[i] = {
       author: {
-        avatar: 'img/avatars/user0' + getRandomNumber(1, 8) + '.png'
+        avatar: 'img/avatars/user0' + i + '.png'
       },
 
       offer: {
-        title: getRandomList(TITLES),
+        title: getRandomFromList(TITLES),
         address: locationX + ', ' + locationY,
         price: getRandomNumberRound(PRICE_MIN, PRICE_MAX),
-        type: getRandomList(TYPES),
+        type: getRandomFromList(TYPES),
         rooms: getRandomNumber(ROOMS_MIN, ROOMS_MAX),
         guests: getRandomNumber(GUESTS_MIN, GUESTS_MAX),
-        checkin: getRandomList(TIMES),
-        checkout: getRandomList(TIMES),
+        checkin: getRandomFromList(TIMES),
+        checkout: getRandomFromList(TIMES),
         features: getRandomSliceList(FEATURES),
         description: 'Описание',
         photos: getShuffleList(PHOTOS)
@@ -105,7 +112,7 @@ var renderPhoto = function (array) {
 
 // Обьявления на странице
 var openMap = function () {
-  map.classList.remove('map--faded');
+  mapElement.classList.remove('map--faded');
 };
 
 var generateOffersElement = function (offer) {
@@ -124,7 +131,7 @@ var renderOffers = function (array) {
   for (var i = 0; i < array.length; i++) {
     fragment.appendChild(generateOffersElement(array[i]));
   }
-  map.appendChild(fragment);
+  mapElement.appendChild(fragment);
 };
 
 // Вывод данных обьявления
@@ -138,6 +145,7 @@ var generateCard = function (offer) {
   card.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
   card.querySelector('.popup__features').textContent = offer.offer.features;
   card.querySelector('.popup__description').textContent = offer.offer.description;
+  card.querySelector('.popup__photos').textContent = '';
   card.querySelector('.popup__photos').appendChild(renderPhoto(offer));
   card.querySelector('.popup__avatar').src = offer.author.avatar;
 
@@ -147,7 +155,7 @@ var generateCard = function (offer) {
 var renderCard = function (array) {
   var fragment = document.createDocumentFragment();
   fragment.appendChild(generateCard(array));
-  map.appendChild(fragment);
+  mapElement.appendChild(fragment);
 };
 
 // Отрисовка на карте
