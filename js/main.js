@@ -41,11 +41,6 @@ var getRandomFromList = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-// Случайные данные из массива без повторений
-var getRandomFromListNoRepeat = function (array) {
-  return array[Math.floor(Math.random() * array.length)];
-};
-
 // Случайная длина массива
 var getRandomSliceList = function (array) {
   return array.slice((getRandomNumber(0, array.length)));
