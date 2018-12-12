@@ -71,7 +71,7 @@ var generateOffers = function () {
 
     offers[i] = {
       author: {
-        avatar: 'img/avatars/user0' + i + '.png'
+        avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
 
       offer: {
