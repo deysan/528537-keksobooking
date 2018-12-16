@@ -161,4 +161,4 @@ var activate = function () {
   renderCard(offers[0]);
 };
 
-activate();
+// activate();
