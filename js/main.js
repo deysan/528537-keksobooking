@@ -154,11 +154,39 @@ var renderCard = function (array) {
 };
 
 // Отрисовка на карте
-var activate = function () {
+var activateMap = function () {
   var offers = generateOffers();
   openMap();
   renderOffers(offers);
   renderCard(offers[0]);
+
+  formElement.classList.remove('ad-form--disabled');
+
+  for (var i = 0; i < formInputElement.length; i++) {
+    formInputElement[i].disabled = false;
+  }
+
+  mapPinElement.removeEventListener('mouseup', activateMap);
 };
 
-// activate();
+// activateMap();
+
+
+// ТЗ 1. Активация страницы
+var mapPinElement = document.querySelector('.map__pin--main');
+var formElement = document.querySelector('.ad-form');
+var formInputElement = formElement.querySelectorAll('fieldset');
+
+var disabledMap = function () {
+  mapElement.classList.add('map--faded');
+  formElement.classList.add('ad-form--disabled');
+
+  for (var i = 0; i < formInputElement.length; i++) {
+    formInputElement[i].disabled = true;
+  }
+};
+
+// disabledMap();
+
+mapPinElement.addEventListener('mouseup', activateMap);
+
