@@ -1,5 +1,17 @@
 'use strict';
 
+// Переменные
+var mapElement = document.querySelector('.map');
+var mapElementWidth = mapElement.offsetWidth;
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
+var mapPinElement = document.querySelector('.map__pin--main');
+var mapPinElementWidth = mapPinElement.offsetWidth;
+var mapPinElementHeight = mapPinElement.offsetHeight;
+var formElement = document.querySelector('.ad-form');
+var formInputElement = formElement.querySelectorAll('fieldset');
+
 // Константы
 var PRICE_MIN = 1000;
 var PRICE_MAX = 1000000;
@@ -7,8 +19,8 @@ var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
-var LOCATION_MIN_X = 100;
-var LOCATION_MAX_X = 1000;
+var LOCATION_MIN_X = mapPinElementWidth / 2;
+var LOCATION_MAX_X = mapElementWidth - mapPinElementWidth / 2;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
 var OFFERS_NUMBER = 8;
@@ -19,15 +31,6 @@ var TYPES = [{type: 'palace', name: 'Дворец'}, {type: 'flat', name: 'Кв�
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-
-// Переменные
-var mapElement = document.querySelector('.map');
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
-var mapPinElement = document.querySelector('.map__pin--main');
-var formElement = document.querySelector('.ad-form');
-var formInputElement = formElement.querySelectorAll('fieldset');
 
 // Случайное число
 var getRandomNumber = function (min, max) {
