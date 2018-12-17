@@ -25,6 +25,9 @@ var mapElement = document.querySelector('.map');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
+var mapPinElement = document.querySelector('.map__pin--main');
+var formElement = document.querySelector('.ad-form');
+var formInputElement = formElement.querySelectorAll('fieldset');
 
 // Случайное число
 var getRandomNumber = function (min, max) {
@@ -169,24 +172,17 @@ var activateMap = function () {
   mapPinElement.removeEventListener('mouseup', activateMap);
 };
 
-// activateMap();
-
-
 // ТЗ 1. Активация страницы
-var mapPinElement = document.querySelector('.map__pin--main');
-var formElement = document.querySelector('.ad-form');
-var formInputElement = formElement.querySelectorAll('fieldset');
-
-var disabledMap = function () {
-  mapElement.classList.add('map--faded');
-  formElement.classList.add('ad-form--disabled');
-
-  for (var i = 0; i < formInputElement.length; i++) {
-    formInputElement[i].disabled = true;
-  }
-};
-
-// disabledMap();
-
 mapPinElement.addEventListener('mouseup', activateMap);
 
+// Неактивное состояние
+// var disabledMap = function () {
+//   mapElement.classList.add('map--faded');
+//   formElement.classList.add('ad-form--disabled');
+
+//   for (var i = 0; i < formInputElement.length; i++) {
+//     formInputElement[i].disabled = true;
+//   }
+// };
+
+// disabledMap();
