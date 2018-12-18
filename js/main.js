@@ -8,7 +8,7 @@ var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
 var mapPinElement = document.querySelector('.map__pin--main');
 var mapPinElementWidth = mapPinElement.offsetWidth;
-// var mapPinElementHeight = mapPinElement.offsetHeight;
+var mapPinElementHeight = mapPinElement.offsetHeight;
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
@@ -161,19 +161,21 @@ var renderCard = function (array) {
 };
 
 // Отрисовка на карте
-var activateMap = function () {
-  var offers = generateOffers();
-  openMap();
-  renderOffers(offers);
-  renderCard(offers[0]);
-
+var enableAdForm = function () {
   formElement.classList.remove('ad-form--disabled');
 
   for (var i = 0; i < formInputElement.length; i++) {
     formInputElement[i].disabled = false;
   }
+};
+var activateMap = function () {
+  var offers = generateOffers();
+  openMap();
+  renderOffers(offers);
+  renderCard(offers[0]);
+  enableAdForm();
 
-  addressElement.value = pinTemplate.style.left + ', ' + pinTemplate.style.top;
+  addressElement.value = mapPinElement.style.left + ', ' + mapPinElement.style.top;
 
   mapPinElement.removeEventListener('mouseup', activateMap);
 };
@@ -182,13 +184,13 @@ var activateMap = function () {
 mapPinElement.addEventListener('mouseup', activateMap);
 
 // Неактивное состояние
-// var disabledMap = function () {
-//   mapElement.classList.add('map--faded');
-//   formElement.classList.add('ad-form--disabled');
+var disabledMap = function () {
+  // mapElement.classList.add('map--faded');
+  // formElement.classList.add('ad-form--disabled');
 
-//   for (var i = 0; i < formInputElement.length; i++) {
-//     formInputElement[i].disabled = true;
-//   }
-// };
+  for (var i = 0; i < formInputElement.length; i++) {
+    formInputElement[i].disabled = true;
+  }
+};
 
-// disabledMap();
+disabledMap();
