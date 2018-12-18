@@ -11,6 +11,7 @@ var mapPinElementWidth = mapPinElement.offsetWidth;
 var mapPinElementHeight = mapPinElement.offsetHeight;
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
+var addressElement = document.querySelector('#address');
 
 // Константы
 var PRICE_MIN = 1000;
@@ -171,6 +172,8 @@ var activateMap = function () {
   for (var i = 0; i < formInputElement.length; i++) {
     formInputElement[i].disabled = false;
   }
+
+  addressElement.value = pinTemplate.style.left + ', ' + pinTemplate.style.top;
 
   mapPinElement.removeEventListener('mouseup', activateMap);
 };
