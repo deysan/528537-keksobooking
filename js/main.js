@@ -1,14 +1,14 @@
 'use strict';
 
 // Переменные
-var mapElement = document.querySelector('.map');
-var mapElementWidth = mapElement.offsetWidth;
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
+var mapElement = document.querySelector('.map');
+var mapElementWidth = mapElement.offsetWidth;
 var mapPinElement = document.querySelector('.map__pin--main');
 var mapPinElementWidth = mapPinElement.offsetWidth;
-var mapPinElementHeight = mapPinElement.offsetHeight;
+// var mapPinElementHeight = mapPinElement.offsetHeight;
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
