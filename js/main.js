@@ -8,7 +8,6 @@ var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
 var mapPinElement = document.querySelector('.map__pin--main');
 var mapPinElementWidth = mapPinElement.offsetWidth;
-var mapPinElementHeight = mapPinElement.offsetHeight;
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
@@ -25,6 +24,8 @@ var LOCATION_MAX_X = mapElementWidth - mapPinElementWidth / 2;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
 var OFFERS_NUMBER = 8;
+
+var ESC_KEYCODE = 27;
 
 // Массивы
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
@@ -154,9 +155,9 @@ var generateCard = function (offer) {
   return card;
 };
 
-var renderCard = function (array) {
+var renderCard = function (card) {
   var fragment = document.createDocumentFragment();
-  fragment.appendChild(generateCard(array));
+  fragment.appendChild(generateCard(card));
   mapElement.appendChild(fragment);
 };
 
@@ -168,14 +169,20 @@ var enableAdForm = function () {
     formInputElement[i].disabled = false;
   }
 };
+
 var activateMap = function () {
   var offers = generateOffers();
+  var pins = document.querySelectorAll('.map__pin');
   openMap();
   renderOffers(offers);
-  renderCard(offers[0]);
+  // renderCard(offers[0]);
   enableAdForm();
 
   addressElement.value = mapPinElement.style.left + ', ' + mapPinElement.style.top;
+
+  pins.forEach(function (pinEach, array) {
+    openCard(pinEach, offers[array]);
+  });
 
   mapPinElement.removeEventListener('mouseup', activateMap);
 };
@@ -194,3 +201,35 @@ var disabledMap = function () {
 };
 
 disabledMap();
+
+// Функции открытия и закрытия карточки
+function openCard(pinOnMap, offers) {
+  pinOnMap.addEventListener('click', function openCardClickHandler() {
+    var cardAll = document.querySelectorAll('.map__card');
+
+    for (var i = 0; i < cardAll.length; i++) {
+      var cardOne;
+    }
+
+    cardOne = mapElement.appendChild(generateCard(offers));
+    closeCardClickHandler(cardOne);
+  });
+}
+
+function closeCardClickHandler(card) {
+  var cardClose = card.querySelector('.popup__close');
+  document.addEventListener('keydown', popupEscHandler);
+  cardClose.addEventListener('click', removeCard);
+}
+
+function popupEscHandler(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    removeCard();
+  }
+}
+
+function removeCard() {
+  var mapCard = document.querySelector('.map__card');
+  mapCard.remove();
+  document.removeEventListener('keydown', popupEscHandler);
+}
