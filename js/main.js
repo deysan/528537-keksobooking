@@ -8,6 +8,7 @@ var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
 var mapPinElement = document.querySelector('.map__pin--main');
 var mapPinElementWidth = mapPinElement.offsetWidth;
+var mapPinsElement = document.querySelector('.map__pins');
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
@@ -155,11 +156,11 @@ var generateCard = function (offer) {
   return card;
 };
 
-var renderCard = function (card) {
-  var fragment = document.createDocumentFragment();
-  fragment.appendChild(generateCard(card));
-  mapElement.appendChild(fragment);
-};
+// var renderCard = function (card) {
+//   var fragment = document.createDocumentFragment();
+//   fragment.appendChild(generateCard(card));
+//   mapElement.appendChild(fragment);
+// };
 
 // Отрисовка на карте
 var enableAdForm = function () {
@@ -172,7 +173,6 @@ var enableAdForm = function () {
 
 var activateMap = function () {
   var offers = generateOffers();
-  var pins = document.querySelectorAll('.map__pin');
   openMap();
   renderOffers(offers);
   // renderCard(offers[0]);
@@ -180,6 +180,7 @@ var activateMap = function () {
 
   addressElement.value = mapPinElement.style.left + ', ' + mapPinElement.style.top;
 
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
   pins.forEach(function (pinEach, array) {
     openCard(pinEach, offers[array]);
   });
