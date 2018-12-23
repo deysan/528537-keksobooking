@@ -155,12 +155,6 @@ var generateCard = function (offer) {
   return card;
 };
 
-// var renderCard = function (card) {
-//   var fragment = document.createDocumentFragment();
-//   fragment.appendChild(generateCard(card));
-//   mapElement.appendChild(fragment);
-// };
-
 // Отрисовка на карте
 var enableAdForm = function () {
   formElement.classList.remove('ad-form--disabled');
@@ -170,25 +164,25 @@ var enableAdForm = function () {
   }
 };
 
-// function toggleFieldsetDisabled(fieldset, disabled) {
-//   fieldsetAdForm.forEach(function (field) {
-//     field.disabled = disabled;
-//   });
-// }
+var mapPinPosition = function () {
+  addressElement.value = parseInt(mapPinElement.style.left) + ', ' + parseInt(mapPinElement.style.top);
+};
 
-var activateMap = function () {
-  var offers = generateOffers();
-  openMap();
-  renderOffers(offers);
-  // renderCard(offers[0]);
-  enableAdForm();
+var offers = generateOffers();
 
-  addressElement.value = mapPinElement.style.left + ', ' + mapPinElement.style.top;
-
+var mapPins = function () {
   var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
   pins.forEach(function (pinEach, array) {
     openCard(pinEach, offers[array]);
   });
+};
+
+var activateMap = function () {
+  openMap();
+  renderOffers(offers);
+  enableAdForm();
+  mapPinPosition();
+  mapPins();
 
   mapPinElement.removeEventListener('mouseup', activateMap);
 };
@@ -198,9 +192,6 @@ mapPinElement.addEventListener('mouseup', activateMap);
 
 // Неактивное состояние
 var disabledMap = function () {
-  // mapElement.classList.add('map--faded');
-  // formElement.classList.add('ad-form--disabled');
-
   for (var i = 0; i < formInputElement.length; i++) {
     formInputElement[i].disabled = true;
   }
@@ -210,19 +201,17 @@ disabledMap();
 
 // Функции открытия и закрытия карточки
 var openCard = function (pinOnMap, offers) {
-  pinOnMap.addEventListener('click', function openCardClickHandler() {
-    var cardAll = document.querySelectorAll('.map__card');
-
-    for (var i = 0; i < cardAll.length; i++) {
-      var cardOne;
+  pinOnMap.addEventListener('click', function addOpenCardClickHandler() {
+    var mapCard = document.querySelector('.map__card');
+    if (mapCard) {
+      removeCard();
     }
-
-    cardOne = mapElement.appendChild(generateCard(offers));
-    closeCardClickHandler(cardOne);
-  });
+    var mapCardOne = mapElement.appendChild(generateCard(offers));
+    addCloseCardClickHandler(mapCardOne);
+  })
 };
 
-var closeCardClickHandler = function (card) {
+var addCloseCardClickHandler = function (card) {
   var cardClose = card.querySelector('.popup__close');
   document.addEventListener('keydown', popupEscHandler);
   cardClose.addEventListener('click', removeCard);
