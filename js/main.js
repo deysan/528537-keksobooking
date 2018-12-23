@@ -170,6 +170,12 @@ var enableAdForm = function () {
   }
 };
 
+// function toggleFieldsetDisabled(fieldset, disabled) {
+//   fieldsetAdForm.forEach(function (field) {
+//     field.disabled = disabled;
+//   });
+// }
+
 var activateMap = function () {
   var offers = generateOffers();
   openMap();
@@ -203,7 +209,7 @@ var disabledMap = function () {
 disabledMap();
 
 // Функции открытия и закрытия карточки
-function openCard(pinOnMap, offers) {
+var openCard = function (pinOnMap, offers) {
   pinOnMap.addEventListener('click', function openCardClickHandler() {
     var cardAll = document.querySelectorAll('.map__card');
 
@@ -214,22 +220,22 @@ function openCard(pinOnMap, offers) {
     cardOne = mapElement.appendChild(generateCard(offers));
     closeCardClickHandler(cardOne);
   });
-}
+};
 
-function closeCardClickHandler(card) {
+var closeCardClickHandler = function (card) {
   var cardClose = card.querySelector('.popup__close');
   document.addEventListener('keydown', popupEscHandler);
   cardClose.addEventListener('click', removeCard);
-}
+};
 
-function popupEscHandler(evt) {
+var popupEscHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     removeCard();
   }
-}
+};
 
-function removeCard() {
+var removeCard = function () {
   var mapCard = document.querySelector('.map__card');
   mapCard.remove();
   document.removeEventListener('keydown', popupEscHandler);
-}
+};
