@@ -8,7 +8,6 @@ var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
 var mapPinElement = document.querySelector('.map__pin--main');
 var mapPinElementWidth = mapPinElement.offsetWidth;
-var mapPinsElement = document.querySelector('.map__pins');
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
