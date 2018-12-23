@@ -165,12 +165,11 @@ var enableAdForm = function () {
 };
 
 var mapPinPosition = function () {
-  addressElement.value = parseInt(mapPinElement.style.left) + ', ' + parseInt(mapPinElement.style.top);
+  addressElement.value = parseInt(mapPinElement.style.left, 10) + ', ' + parseInt(mapPinElement.style.top, 10);
 };
 
-var offers = generateOffers();
-
 var mapPins = function () {
+  var offers = generateOffers();
   var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
   pins.forEach(function (pinEach, array) {
     openCard(pinEach, offers[array]);
@@ -178,6 +177,7 @@ var mapPins = function () {
 };
 
 var activateMap = function () {
+  var offers = generateOffers();
   openMap();
   renderOffers(offers);
   enableAdForm();
@@ -208,7 +208,7 @@ var openCard = function (pinOnMap, offers) {
     }
     var mapCardOne = mapElement.appendChild(generateCard(offers));
     addCloseCardClickHandler(mapCardOne);
-  })
+  });
 };
 
 var addCloseCardClickHandler = function (card) {
