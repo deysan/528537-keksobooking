@@ -190,7 +190,7 @@ var activateMap = function () {
 };
 
 // ТЗ 1. Активация страницы
-// mapPinElement.addEventListener('mouseup', activateMap);
+mapPinElement.addEventListener('mouseup', activateMap);
 
 // Неактивное состояние
 var disabledMap = function () {
@@ -204,8 +204,8 @@ disabledMap();
 // Функции открытия и закрытия карточки
 var openCard = function (pinOnMap, offers) {
   pinOnMap.addEventListener('click', function addOpenCardClickHandler() {
-    var mapCardOne = mapElement.appendChild(generateCard(offers));
     removeCard();
+    var mapCardOne = mapElement.appendChild(generateCard(offers));
     addCloseCardClickHandler(mapCardOne);
   });
 };
@@ -258,7 +258,7 @@ var roomNumberAndCapacityChange = function () {
 roomNumberElement.addEventListener('change', roomNumberAndCapacityChange);
 
 // Перемещения главного маркера
-mapPinElement.addEventListener('mousedown', function activateMap(evt) {
+mapPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoords = {
