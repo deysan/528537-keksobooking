@@ -190,7 +190,7 @@ var activateMap = function () {
 };
 
 // ТЗ 1. Активация страницы
-mapPinElement.addEventListener('mouseup', activateMap);
+// mapPinElement.addEventListener('mouseup', activateMap);
 
 // Неактивное состояние
 var disabledMap = function () {
