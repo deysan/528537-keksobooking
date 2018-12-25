@@ -168,11 +168,11 @@ var mapPinPosition = function () {
   addressElement.value = parseInt(mapPinElement.style.left, 10) + ', ' + parseInt(mapPinElement.style.top, 10);
 };
 
-var mapPins = function () {
-  var offers = generateOffers();
+
+var mapPins = function (offers) {
   var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-  pins.forEach(function (pinEach, array) {
-    openCard(pinEach, offers[array]);
+  pins.forEach(function (item, index) {
+    openCard(item, offers[index]);
   });
 };
 
@@ -182,7 +182,7 @@ var activateMap = function () {
   renderOffers(offers);
   enableAdForm();
   mapPinPosition();
-  mapPins();
+  mapPins(offers);
 
   mapPinElement.removeEventListener('mouseup', activateMap);
 };
@@ -202,10 +202,7 @@ disabledMap();
 // Функции открытия и закрытия карточки
 var openCard = function (pinOnMap, offers) {
   pinOnMap.addEventListener('click', function addOpenCardClickHandler() {
-    var mapCard = document.querySelector('.map__card');
-    if (mapCard) {
-      removeCard();
-    }
+    removeCard();
     var mapCardOne = mapElement.appendChild(generateCard(offers));
     addCloseCardClickHandler(mapCardOne);
   });
@@ -225,6 +222,8 @@ var popupEscHandler = function (evt) {
 
 var removeCard = function () {
   var mapCard = document.querySelector('.map__card');
-  mapCard.remove();
+  if (mapCard) {
+    mapCard.remove();
+  }
   document.removeEventListener('keydown', popupEscHandler);
 };
