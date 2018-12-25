@@ -227,3 +227,33 @@ var removeCard = function () {
   }
   document.removeEventListener('keydown', popupEscHandler);
 };
+
+// Функция выбора количества комнат и гостей
+var roomNumberElement = document.querySelector('#room_number');
+var capacityOptionElement = document.querySelector('#capacity').querySelectorAll('option');
+
+var roomNumberAndCapacityChange = function () {
+  if (roomNumberElement.value === '1') {
+    capacityOptionElement[0].setAttribute('disabled', true);
+    capacityOptionElement[1].setAttribute('disabled', true);
+    capacityOptionElement[2].removeAttribute('disabled');
+    capacityOptionElement[3].setAttribute('disabled', true);
+  } else if (roomNumberElement.value === '2') {
+    capacityOptionElement[0].setAttribute('disabled', true);
+    capacityOptionElement[1].removeAttribute('disabled');
+    capacityOptionElement[2].removeAttribute('disabled');
+    capacityOptionElement[3].setAttribute('disabled', true);
+  } else if (roomNumberElement.value === '3') {
+    capacityOptionElement[0].removeAttribute('disabled');
+    capacityOptionElement[1].removeAttribute('disabled');
+    capacityOptionElement[2].removeAttribute('disabled');
+    capacityOptionElement[3].setAttribute('disabled', true);
+  } else if (roomNumberElement.value === '100') {
+    capacityOptionElement[0].setAttribute('disabled', true);
+    capacityOptionElement[1].setAttribute('disabled', true);
+    capacityOptionElement[2].setAttribute('disabled', true);
+    capacityOptionElement[3].removeAttribute('disabled');
+  }
+};
+
+roomNumberElement.addEventListener('change', roomNumberAndCapacityChange);
