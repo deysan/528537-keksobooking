@@ -1,5 +1,17 @@
 'use strict';
 
+// Переменные
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
+var mapElement = document.querySelector('.map');
+var mapElementWidth = mapElement.offsetWidth;
+var mapPinElement = document.querySelector('.map__pin--main');
+var mapPinElementWidth = mapPinElement.offsetWidth;
+var formElement = document.querySelector('.ad-form');
+var formInputElement = formElement.querySelectorAll('fieldset');
+var addressElement = document.querySelector('#address');
+
 // Константы
 var PRICE_MIN = 1000;
 var PRICE_MAX = 1000000;
@@ -7,11 +19,13 @@ var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
-var LOCATION_MIN_X = 100;
-var LOCATION_MAX_X = 1000;
+var LOCATION_MIN_X = mapPinElementWidth / 2;
+var LOCATION_MAX_X = mapElementWidth - mapPinElementWidth / 2;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
 var OFFERS_NUMBER = 8;
+
+var ESC_KEYCODE = 27;
 
 // Массивы
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
@@ -19,12 +33,6 @@ var TYPES = [{type: 'palace', name: 'Дворец'}, {type: 'flat', name: 'Кв�
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-
-// Переменные
-var mapElement = document.querySelector('.map');
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
 
 // Случайное число
 var getRandomNumber = function (min, max) {
@@ -147,18 +155,75 @@ var generateCard = function (offer) {
   return card;
 };
 
-var renderCard = function (array) {
-  var fragment = document.createDocumentFragment();
-  fragment.appendChild(generateCard(array));
-  mapElement.appendChild(fragment);
+// Отрисовка на карте
+var enableAdForm = function () {
+  formElement.classList.remove('ad-form--disabled');
+
+  for (var i = 0; i < formInputElement.length; i++) {
+    formInputElement[i].disabled = false;
+  }
 };
 
-// Отрисовка на карте
-var activate = function () {
+var mapPinPosition = function () {
+  addressElement.value = parseInt(mapPinElement.style.left, 10) + ', ' + parseInt(mapPinElement.style.top, 10);
+};
+
+
+var mapPins = function (offers) {
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  pins.forEach(function (item, index) {
+    openCard(item, offers[index]);
+  });
+};
+
+var activateMap = function () {
   var offers = generateOffers();
   openMap();
   renderOffers(offers);
-  renderCard(offers[0]);
+  enableAdForm();
+  mapPinPosition();
+  mapPins(offers);
+
+  mapPinElement.removeEventListener('mouseup', activateMap);
 };
 
-activate();
+// ТЗ 1. Активация страницы
+mapPinElement.addEventListener('mouseup', activateMap);
+
+// Неактивное состояние
+var disabledMap = function () {
+  for (var i = 0; i < formInputElement.length; i++) {
+    formInputElement[i].disabled = true;
+  }
+};
+
+disabledMap();
+
+// Функции открытия и закрытия карточки
+var openCard = function (pinOnMap, offers) {
+  pinOnMap.addEventListener('click', function addOpenCardClickHandler() {
+    removeCard();
+    var mapCardOne = mapElement.appendChild(generateCard(offers));
+    addCloseCardClickHandler(mapCardOne);
+  });
+};
+
+var addCloseCardClickHandler = function (card) {
+  var cardClose = card.querySelector('.popup__close');
+  document.addEventListener('keydown', popupEscHandler);
+  cardClose.addEventListener('click', removeCard);
+};
+
+var popupEscHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    removeCard();
+  }
+};
+
+var removeCard = function () {
+  var mapCard = document.querySelector('.map__card');
+  if (mapCard) {
+    mapCard.remove();
+  }
+  document.removeEventListener('keydown', popupEscHandler);
+};
