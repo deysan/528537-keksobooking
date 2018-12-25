@@ -266,11 +266,8 @@ mapPinElement.addEventListener('mousedown', function activateMap(evt) {
     y: evt.clientY
   };
 
-  var dragged = false;
-
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
-    dragged = true;
 
     var shift = {
       x: startCoords.x - moveEvt.clientX,
@@ -289,18 +286,8 @@ mapPinElement.addEventListener('mousedown', function activateMap(evt) {
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-
-    if (dragged) {
-      var onClickPreventDefault = function (removeEvt) {
-        removeEvt.preventDefault();
-        mapPinElement.removeEventListener('click', onClickPreventDefault)
-      };
-      mapPinElement.addEventListener('click', onClickPreventDefault);
-    }
-
   };
 
   document.addEventListener('mousemove', onMouseMove);
