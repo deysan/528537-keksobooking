@@ -11,6 +11,8 @@ var mapPinElementWidth = mapPinElement.offsetWidth;
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
+var roomNumberElement = document.querySelector('#room_number');
+var capacityOptionElement = document.querySelector('#capacity').querySelectorAll('option');
 
 // Константы
 var PRICE_MIN = 1000;
@@ -202,8 +204,8 @@ disabledMap();
 // Функции открытия и закрытия карточки
 var openCard = function (pinOnMap, offers) {
   pinOnMap.addEventListener('click', function addOpenCardClickHandler() {
-    removeCard();
     var mapCardOne = mapElement.appendChild(generateCard(offers));
+    removeCard();
     addCloseCardClickHandler(mapCardOne);
   });
 };
@@ -229,9 +231,6 @@ var removeCard = function () {
 };
 
 // Функция выбора количества комнат и гостей
-var roomNumberElement = document.querySelector('#room_number');
-var capacityOptionElement = document.querySelector('#capacity').querySelectorAll('option');
-
 var roomNumberAndCapacityChange = function () {
   if (roomNumberElement.value === '1') {
     capacityOptionElement[0].setAttribute('disabled', true);
