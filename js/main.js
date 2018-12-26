@@ -14,6 +14,8 @@ var addressElement = document.querySelector('#address');
 var roomNumberElement = document.querySelector('#room_number');
 var capacityElement = document.querySelector('#capacity');
 var capacityOptionElement = capacityElement.querySelectorAll('option');
+var priceElement = document.querySelector('#price');
+var typeElement = document.querySelector('#type');
 
 // Константы
 var PRICE_MIN = 1000;
@@ -36,6 +38,7 @@ var TYPES = [{type: 'palace', name: 'Дворец'}, {type: 'flat', name: 'Кв�
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var MIN_PRICES = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
 
 // Случайное число
 var getRandomNumber = function (min, max) {
@@ -261,3 +264,13 @@ var onCapacityChange = function () {
 };
 
 roomNumberElement.addEventListener('change', onCapacityChange);
+
+// Минимальная цена в зависимости от жилья
+var minPrice = function (price) {
+  priceElement.min = price;
+  priceElement.placeholder = price;
+};
+
+typeElement.addEventListener('change', function (evt) {
+  minPrice(MIN_PRICES[evt.target.value]);
+});
