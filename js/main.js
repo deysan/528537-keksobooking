@@ -12,7 +12,8 @@ var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
 var roomNumberElement = document.querySelector('#room_number');
-var capacityOptionElement = document.querySelector('#capacity').querySelectorAll('option');
+var capacityElement = document.querySelector('#capacity');
+var capacityOptionElement = capacityElement.querySelectorAll('option');
 
 // Константы
 var PRICE_MIN = 1000;
@@ -231,65 +232,32 @@ var removeCard = function () {
 };
 
 // Функция выбора количества комнат и гостей
-var roomNumberAndCapacityChange = function () {
+var onCapacityChange = function () {
   if (roomNumberElement.value === '1') {
     capacityOptionElement[0].setAttribute('disabled', true);
     capacityOptionElement[1].setAttribute('disabled', true);
     capacityOptionElement[2].removeAttribute('disabled');
     capacityOptionElement[3].setAttribute('disabled', true);
+    capacityElement.value = '1';
   } else if (roomNumberElement.value === '2') {
     capacityOptionElement[0].setAttribute('disabled', true);
     capacityOptionElement[1].removeAttribute('disabled');
     capacityOptionElement[2].removeAttribute('disabled');
     capacityOptionElement[3].setAttribute('disabled', true);
+    capacityElement.value = '2';
   } else if (roomNumberElement.value === '3') {
     capacityOptionElement[0].removeAttribute('disabled');
     capacityOptionElement[1].removeAttribute('disabled');
     capacityOptionElement[2].removeAttribute('disabled');
     capacityOptionElement[3].setAttribute('disabled', true);
+    capacityElement.value = '3';
   } else if (roomNumberElement.value === '100') {
     capacityOptionElement[0].setAttribute('disabled', true);
     capacityOptionElement[1].setAttribute('disabled', true);
     capacityOptionElement[2].setAttribute('disabled', true);
     capacityOptionElement[3].removeAttribute('disabled');
+    capacityElement.value = '0';
   }
 };
 
-roomNumberElement.addEventListener('change', roomNumberAndCapacityChange);
-
-// Перемещения главного маркера
-mapPinElement.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
-
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
-
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    mapPinElement.style.top = (mapPinElement.offsetTop - shift.y) + 'px';
-    mapPinElement.style.left = (mapPinElement.offsetLeft - shift.x) + 'px';
-
-  };
-
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
-
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-});
+roomNumberElement.addEventListener('change', onCapacityChange);
