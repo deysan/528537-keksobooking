@@ -16,6 +16,8 @@ var capacityElement = document.querySelector('#capacity');
 var capacityOptionElement = capacityElement.querySelectorAll('option');
 var priceElement = document.querySelector('#price');
 var typeElement = document.querySelector('#type');
+var timesInElement = document.querySelector('#timein');
+var timesOutElement = document.querySelector('#timeout');
 
 // Константы
 var PRICE_MIN = 1000;
@@ -273,4 +275,13 @@ var minPrice = function (price) {
 
 typeElement.addEventListener('change', function (evt) {
   minPrice(MIN_PRICES[evt.target.value]);
+});
+
+// Синхронизация времени заезда и выезда
+timesInElement.addEventListener('change', function (evt) {
+  timesOutElement.value = evt.target.value;
+});
+
+timesOutElement.addEventListener('change', function (evt) {
+  timesInElement.value = evt.target.value;
 });
