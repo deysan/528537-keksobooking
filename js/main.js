@@ -265,6 +265,7 @@ var onCapacityChange = function () {
   }
 };
 
+onCapacityChange();
 roomNumberElement.addEventListener('change', onCapacityChange);
 
 // Минимальная цена в зависимости от жилья
