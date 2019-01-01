@@ -8,6 +8,7 @@ var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
 var mapPinElement = document.querySelector('.map__pin--main');
 var mapPinElementWidth = mapPinElement.offsetWidth;
+var mapPinElementHeight = mapPinElement.offsetHeight;
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
@@ -30,6 +31,8 @@ var LOCATION_MIN_X = mapPinElementWidth / 2;
 var LOCATION_MAX_X = mapElementWidth - mapPinElementWidth / 2;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
+var PIN_HALF_WIDTH = mapPinElementWidth / 2;
+var PIN_HALF_HEIGHT = mapPinElementHeight / 2;
 var OFFERS_NUMBER = 8;
 
 var ESC_KEYCODE = 27;
@@ -173,9 +176,10 @@ var enableAdForm = function () {
 };
 
 var mapPinPosition = function () {
-  addressElement.value = parseInt(mapPinElement.style.left, 10) + ', ' + parseInt(mapPinElement.style.top, 10);
+  var mapPinPositionX = Math.round(parseInt(mapPinElement.style.left, 10) + PIN_HALF_WIDTH);
+  var mapPinPositionY = Math.round(parseInt(mapPinElement.style.top, 10) + PIN_HALF_HEIGHT);
+  addressElement.value = mapPinPositionX + ', ' + mapPinPositionY;
 };
-
 
 var mapPins = function (offers) {
   var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -289,6 +293,7 @@ timesOutElement.addEventListener('change', function (evt) {
 });
 
 // Перемещения главного маркера
+
 mapPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
@@ -310,8 +315,13 @@ mapPinElement.addEventListener('mousedown', function (evt) {
       y: moveEvt.clientY
     };
 
-    mapPinElement.style.top = (mapPinElement.offsetTop - shift.y) + 'px';
-    mapPinElement.style.left = (mapPinElement.offsetLeft - shift.x) + 'px';
+    var newCoords = {
+      x: mapPinElement.offsetLeft - shift.x,
+      y: mapPinElement.offsetTop - shift.y
+    };
+
+    mapPinElement.style.left = newCoords.x + 'px';
+    mapPinElement.style.top = newCoords.y + 'px';
 
   };
 
@@ -320,6 +330,8 @@ mapPinElement.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
+
+  mapPinPosition();
 
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
