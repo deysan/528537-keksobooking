@@ -27,8 +27,8 @@ var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
-var LOCATION_MIN_X = mapPinElementWidth / 2;
-var LOCATION_MAX_X = mapElementWidth - mapPinElementWidth / 2;
+var LOCATION_MIN_X = 0;
+var LOCATION_MAX_X = mapElementWidth - mapPinElementWidth;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
 var PIN_HALF_WIDTH = mapPinElementWidth / 2;
@@ -320,9 +320,36 @@ mapPinElement.addEventListener('mousedown', function (evt) {
       y: mapPinElement.offsetTop - shift.y
     };
 
+    var minCoords = {
+      x: Math.floor(LOCATION_MIN_X),
+      y: Math.floor(LOCATION_MIN_Y - PIN_HALF_HEIGHT)
+    };
+
+    var maxCoords = {
+      x: Math.floor(mapElementWidth - mapPinElementWidth),
+      y: Math.floor(LOCATION_MAX_Y - PIN_HALF_HEIGHT)
+    };
+
+    if (newCoords.y < minCoords.y) {
+      newCoords.y = minCoords.y;
+    }
+
+    if (newCoords.y > maxCoords.y) {
+      newCoords.y = maxCoords.y;
+    }
+
+    if (newCoords.x < minCoords.x) {
+      newCoords.x = minCoords.x;
+    }
+
+    if (newCoords.x > maxCoords.x) {
+      newCoords.x = maxCoords.x;
+    }
+
     mapPinElement.style.left = newCoords.x + 'px';
     mapPinElement.style.top = newCoords.y + 'px';
 
+    mapPinPosition();
   };
 
   var onMouseUp = function (upEvt) {
@@ -330,8 +357,6 @@ mapPinElement.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
-
-  mapPinPosition();
 
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
