@@ -6,9 +6,14 @@ var cardTemplate = document.querySelector('#card').content.querySelector('.map__
 var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
 var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
-var mapPinElement = document.querySelector('.map__pin--main');
+var mapPinElement = document.querySelector('.map__pin');
 var mapPinElementWidth = mapPinElement.offsetWidth;
 var mapPinElementHeight = mapPinElement.offsetHeight;
+var mapPinMainElement = document.querySelector('.map__pin--main');
+var mapPinMainElementWidth = mapPinMainElement.offsetWidth;
+var mapPinMainElementHeight = mapPinMainElement.offsetHeight;
+var mapPinMainElementAfter = window.getComputedStyle(mapPinMainElement, '::after');
+var mapPinMainElementAfterHeight = parseInt(mapPinMainElementAfter.height, 10);
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
@@ -28,11 +33,11 @@ var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
 var LOCATION_MIN_X = 0;
-var LOCATION_MAX_X = mapElementWidth - mapPinElementWidth;
+var LOCATION_MAX_X = mapElementWidth;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
-var PIN_HALF_WIDTH = mapPinElementWidth / 2;
-var PIN_HALF_HEIGHT = mapPinElementHeight / 2;
+var PIN_HALF_WIDTH = mapPinMainElementWidth / 2;
+var PIN_HALF_HEIGHT = mapPinMainElementHeight + mapPinMainElementAfterHeight / 2;
 var OFFERS_NUMBER = 8;
 
 var ESC_KEYCODE = 27;
@@ -80,8 +85,8 @@ var generateOffers = function () {
   var offers = [];
   for (var i = 0; i < OFFERS_NUMBER; i++) {
 
-    var locationX = getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X);
-    var locationY = getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y);
+    var locationX = getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X - mapPinElementWidth);
+    var locationY = getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y - mapPinElementHeight);
 
     offers[i] = {
       author: {
@@ -176,8 +181,8 @@ var enableAdForm = function () {
 };
 
 var mapPinPosition = function () {
-  var mapPinPositionX = Math.round(parseInt(mapPinElement.style.left, 10) + PIN_HALF_WIDTH);
-  var mapPinPositionY = Math.round(parseInt(mapPinElement.style.top, 10) + PIN_HALF_HEIGHT);
+  var mapPinPositionX = Math.round(parseInt(mapPinMainElement.style.left, 10) + PIN_HALF_WIDTH);
+  var mapPinPositionY = Math.round(parseInt(mapPinMainElement.style.top, 10) + PIN_HALF_HEIGHT);
   addressElement.value = mapPinPositionX + ', ' + mapPinPositionY;
 };
 
@@ -196,11 +201,11 @@ var activateMap = function () {
   mapPinPosition();
   mapPins(offers);
 
-  mapPinElement.removeEventListener('mouseup', activateMap);
+  mapPinMainElement.removeEventListener('mouseup', activateMap);
 };
 
 // ТЗ 1. Активация страницы
-mapPinElement.addEventListener('mouseup', activateMap);
+mapPinMainElement.addEventListener('mouseup', activateMap);
 
 // Неактивное состояние
 var disabledMap = function () {
@@ -294,7 +299,7 @@ timesOutElement.addEventListener('change', function (evt) {
 
 // Перемещения главного маркера
 
-mapPinElement.addEventListener('mousedown', function (evt) {
+mapPinMainElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoords = {
@@ -316,8 +321,8 @@ mapPinElement.addEventListener('mousedown', function (evt) {
     };
 
     var newCoords = {
-      x: mapPinElement.offsetLeft - shift.x,
-      y: mapPinElement.offsetTop - shift.y
+      x: mapPinMainElement.offsetLeft - shift.x,
+      y: mapPinMainElement.offsetTop - shift.y
     };
 
     var minCoords = {
@@ -326,7 +331,7 @@ mapPinElement.addEventListener('mousedown', function (evt) {
     };
 
     var maxCoords = {
-      x: Math.floor(mapElementWidth - mapPinElementWidth),
+      x: Math.floor(mapElementWidth - mapPinMainElementWidth),
       y: Math.floor(LOCATION_MAX_Y - PIN_HALF_HEIGHT)
     };
 
@@ -346,8 +351,8 @@ mapPinElement.addEventListener('mousedown', function (evt) {
       newCoords.x = maxCoords.x;
     }
 
-    mapPinElement.style.left = newCoords.x + 'px';
-    mapPinElement.style.top = newCoords.y + 'px';
+    mapPinMainElement.style.left = newCoords.x + 'px';
+    mapPinMainElement.style.top = newCoords.y + 'px';
 
     mapPinPosition();
   };
