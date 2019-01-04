@@ -6,8 +6,14 @@ var cardTemplate = document.querySelector('#card').content.querySelector('.map__
 var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
 var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
-var mapPinElement = document.querySelector('.map__pin--main');
+var mapPinElement = document.querySelector('.map__pin');
 var mapPinElementWidth = mapPinElement.offsetWidth;
+var mapPinElementHeight = mapPinElement.offsetHeight;
+var mapPinMainElement = document.querySelector('.map__pin--main');
+var mapPinMainElementWidth = mapPinMainElement.offsetWidth;
+var mapPinMainElementHeight = mapPinMainElement.offsetHeight;
+var mapPinMainElementAfter = window.getComputedStyle(mapPinMainElement, '::after');
+var mapPinMainElementAfterHeight = parseInt(mapPinMainElementAfter.height, 10);
 var formElement = document.querySelector('.ad-form');
 var formInputElement = formElement.querySelectorAll('fieldset');
 var addressElement = document.querySelector('#address');
@@ -26,10 +32,12 @@ var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 10;
-var LOCATION_MIN_X = mapPinElementWidth / 2;
-var LOCATION_MAX_X = mapElementWidth - mapPinElementWidth / 2;
+var LOCATION_MIN_X = 0;
+var LOCATION_MAX_X = mapElementWidth;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
+var PIN_HALF_WIDTH = mapPinMainElementWidth / 2;
+var PIN_HALF_HEIGHT = mapPinMainElementHeight + mapPinMainElementAfterHeight / 2;
 var OFFERS_NUMBER = 8;
 
 var ESC_KEYCODE = 27;
@@ -77,8 +85,8 @@ var generateOffers = function () {
   var offers = [];
   for (var i = 0; i < OFFERS_NUMBER; i++) {
 
-    var locationX = getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X);
-    var locationY = getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y);
+    var locationX = getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X - mapPinElementWidth);
+    var locationY = getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y - mapPinElementHeight);
 
     offers[i] = {
       author: {
@@ -173,9 +181,10 @@ var enableAdForm = function () {
 };
 
 var mapPinPosition = function () {
-  addressElement.value = parseInt(mapPinElement.style.left, 10) + ', ' + parseInt(mapPinElement.style.top, 10);
+  var mapPinPositionX = Math.round(parseInt(mapPinMainElement.style.left, 10) + PIN_HALF_WIDTH);
+  var mapPinPositionY = Math.round(parseInt(mapPinMainElement.style.top, 10) + PIN_HALF_HEIGHT);
+  addressElement.value = mapPinPositionX + ', ' + mapPinPositionY;
 };
-
 
 var mapPins = function (offers) {
   var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -192,11 +201,11 @@ var activateMap = function () {
   mapPinPosition();
   mapPins(offers);
 
-  mapPinElement.removeEventListener('mouseup', activateMap);
+  mapPinMainElement.removeEventListener('mouseup', activateMap);
 };
 
 // ТЗ 1. Активация страницы
-mapPinElement.addEventListener('mouseup', activateMap);
+mapPinMainElement.addEventListener('mouseup', activateMap);
 
 // Неактивное состояние
 var disabledMap = function () {
@@ -286,4 +295,70 @@ timesInElement.addEventListener('change', function (evt) {
 
 timesOutElement.addEventListener('change', function (evt) {
   timesInElement.value = evt.target.value;
+});
+
+// Перемещения главного маркера
+
+mapPinMainElement.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    var newCoords = {
+      x: mapPinMainElement.offsetLeft - shift.x,
+      y: mapPinMainElement.offsetTop - shift.y
+    };
+
+    var minCoords = {
+      x: Math.floor(LOCATION_MIN_X),
+      y: Math.floor(LOCATION_MIN_Y - PIN_HALF_HEIGHT)
+    };
+
+    var maxCoords = {
+      x: Math.floor(mapElementWidth - mapPinMainElementWidth),
+      y: Math.floor(LOCATION_MAX_Y - PIN_HALF_HEIGHT)
+    };
+
+    if (newCoords.x < minCoords.x) {
+      newCoords.x = minCoords.x;
+    } else if (newCoords.x > maxCoords.x) {
+      newCoords.x = maxCoords.x;
+    }
+
+    if (newCoords.y < minCoords.y) {
+      newCoords.y = minCoords.y;
+    } else if (newCoords.y > maxCoords.y) {
+      newCoords.y = maxCoords.y;
+    }
+
+    mapPinMainElement.style.left = newCoords.x + 'px';
+    mapPinMainElement.style.top = newCoords.y + 'px';
+
+    mapPinPosition();
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
