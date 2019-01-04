@@ -335,20 +335,16 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
       y: Math.floor(LOCATION_MAX_Y - PIN_HALF_HEIGHT)
     };
 
-    if (newCoords.y < minCoords.y) {
-      newCoords.y = minCoords.y;
-    }
-
-    if (newCoords.y > maxCoords.y) {
-      newCoords.y = maxCoords.y;
-    }
-
     if (newCoords.x < minCoords.x) {
       newCoords.x = minCoords.x;
+    } else if (newCoords.x > maxCoords.x) {
+      newCoords.x = maxCoords.x;
     }
 
-    if (newCoords.x > maxCoords.x) {
-      newCoords.x = maxCoords.x;
+    if (newCoords.y < minCoords.y) {
+      newCoords.y = minCoords.y;
+    } else if (newCoords.y > maxCoords.y) {
+      newCoords.y = maxCoords.y;
     }
 
     mapPinMainElement.style.left = newCoords.x + 'px';
