@@ -5,12 +5,6 @@
   window.util = {
     ESC_KEYCODE: 27,
 
-    popupEscHandler: function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
-        removeCard();
-      }
-    },
-
     // Случайное число
     getRandomNumber: function (min, max) {
       return Math.floor(Math.random() * (max - min)) + min;

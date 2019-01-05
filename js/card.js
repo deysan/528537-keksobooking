@@ -40,7 +40,7 @@
 
   var addCloseCardClickHandler = function (card) {
     var cardClose = card.querySelector('.popup__close');
-    document.addEventListener('keydown', window.util.popupEscHandler);
+    document.addEventListener('keydown', popupEscHandler);
     cardClose.addEventListener('click', removeCard);
   };
 
@@ -49,7 +49,13 @@
     if (mapCard) {
       mapCard.remove();
     }
-    document.removeEventListener('keydown', window.util.popupEscHandler);
+    document.removeEventListener('keydown', popupEscHandler);
+  };
+
+  var popupEscHandler = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
+      removeCard();
+    }
   };
 
   window.card = {

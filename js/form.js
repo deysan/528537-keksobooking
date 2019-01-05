@@ -76,6 +76,6 @@
     formElement: formElement,
     formInputElement: formInputElement,
     enableAdForm: enableAdForm
-  }
+  };
 
 })();
