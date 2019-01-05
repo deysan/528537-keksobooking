@@ -60,7 +60,7 @@
 
   typeElement.addEventListener('change', function (evt) {
     priceElement.value = '';
-    minPriceByType(PRICE_BY_TYPE[evt.target.value]);
+    minPriceByType(window.data.PRICE_BY_TYPE[evt.target.value]);
   });
 
   // Синхронизация времени заезда и выезда
@@ -71,5 +71,11 @@
   timesOutElement.addEventListener('change', function (evt) {
     timesInElement.value = evt.target.value;
   });
+
+  window.form = {
+    formElement: formElement,
+    formInputElement: formInputElement,
+    enableAdForm: enableAdForm
+  }
 
 })();

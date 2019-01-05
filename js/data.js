@@ -2,7 +2,6 @@
 
 (function () {
 
-  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
   var mapElement = document.querySelector('.map');
   var mapElementWidth = mapElement.offsetWidth;
@@ -103,32 +102,19 @@
     return fragment;
   };
 
-  var generateOffersElement = function (offer) {
-    var pin = pinTemplate.cloneNode(true);
-    var avatar = pin.querySelector('img');
-    pin.style.left = offer.location.x + 'px';
-    pin.style.top = offer.location.y + 'px';
-    avatar.src = offer.author.avatar;
-    avatar.alt = offer.offer.title;
-
-    return pin;
-  };
-
-  var renderOffers = function (array) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(generateOffersElement(array[i]));
-    }
-    mapElement.appendChild(fragment);
-  };
-
   window.data = {
+    mapElement: mapElement,
+    mapElementWidth: mapElementWidth,
+    mapPinMainElementWidth: mapPinMainElementWidth,
+    LOCATION_MIN_X: LOCATION_MIN_X,
+    LOCATION_MAX_X: LOCATION_MAX_X,
+    LOCATION_MIN_Y: LOCATION_MIN_Y,
+    LOCATION_MAX_Y: LOCATION_MAX_Y,
     PIN_HALF_WIDTH: PIN_HALF_WIDTH,
     PIN_HALF_HEIGHT: PIN_HALF_HEIGHT,
     PRICE_BY_TYPE: PRICE_BY_TYPE,
     generateOffers: generateOffers,
-    renderPhoto: renderPhoto,
-    renderOffers: renderOffers,
+    renderPhoto: renderPhoto
   };
 
 })();

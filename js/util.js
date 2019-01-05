@@ -28,7 +28,7 @@
 
     // Случайная длина массива
     getRandomSliceList: function (array) {
-      return array.slice((getRandomNumber(0, array.length)));
+      return array.slice((window.util.getRandomNumber(0, array.length)));
     },
 
     // Перемешивание массива

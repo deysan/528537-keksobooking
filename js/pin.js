@@ -2,8 +2,26 @@
 
 (function () {
 
-  // Переменные
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var mapPinElement = document.querySelector('.map__pin');
+  var addressElement = document.querySelector('#address');
+
+  var generateOffersElement = function (offer) {
+    var pin = pinTemplate.cloneNode(true);
+    var avatar = pin.querySelector('img');
+    pin.style.left = offer.location.x + 'px';
+    pin.style.top = offer.location.y + 'px';
+    avatar.src = offer.author.avatar;
+    avatar.alt = offer.offer.title;
+
+    return pin;
+  };
+
+  var mapPinPosition = function () {
+    var mapPinPositionX = Math.round(parseInt(mapPinElement.style.left, 10) + window.data.PIN_HALF_WIDTH);
+    var mapPinPositionY = Math.round(parseInt(mapPinElement.style.top, 10) + window.data.PIN_HALF_HEIGHT);
+    addressElement.value = mapPinPositionX + ', ' + mapPinPositionY;
+  };
 
   // Перемещения главного маркера
   mapPinElement.addEventListener('mousedown', function (evt) {
@@ -33,29 +51,25 @@
       };
 
       var minCoords = {
-        x: Math.floor(LOCATION_MIN_X),
-        y: Math.floor(LOCATION_MIN_Y - PIN_HALF_HEIGHT)
+        x: Math.floor(window.data.LOCATION_MIN_X),
+        y: Math.floor(window.data.LOCATION_MIN_Y - window.data.PIN_HALF_HEIGHT)
       };
 
       var maxCoords = {
-        x: Math.floor(mapElementWidth - mapPinElementWidth),
-        y: Math.floor(LOCATION_MAX_Y - PIN_HALF_HEIGHT)
+        x: Math.floor(window.data.mapElementWidth - window.data.mapPinMainElementWidth),
+        y: Math.floor(window.data.LOCATION_MAX_Y - window.data.PIN_HALF_HEIGHT)
       };
-
-      if (newCoords.y < minCoords.y) {
-        newCoords.y = minCoords.y;
-      }
-
-      if (newCoords.y > maxCoords.y) {
-        newCoords.y = maxCoords.y;
-      }
 
       if (newCoords.x < minCoords.x) {
         newCoords.x = minCoords.x;
+      } else if (newCoords.x > maxCoords.x) {
+        newCoords.x = maxCoords.x;
       }
 
-      if (newCoords.x > maxCoords.x) {
-        newCoords.x = maxCoords.x;
+      if (newCoords.y < minCoords.y) {
+        newCoords.y = minCoords.y;
+      } else if (newCoords.y > maxCoords.y) {
+        newCoords.y = maxCoords.y;
       }
 
       mapPinElement.style.left = newCoords.x + 'px';
@@ -73,5 +87,11 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.pin = {
+    mapPinElement: mapPinElement,
+    mapPinPosition: mapPinPosition,
+    generateOffersElement: generateOffersElement
+  };
 
 })();
