@@ -60,8 +60,8 @@
 
   window.card = {
     renderOffers: renderOffers,
-    openCard: openCard,
-    removeCard: removeCard
+    open: openCard,
+    remove: removeCard
   };
 
 })();

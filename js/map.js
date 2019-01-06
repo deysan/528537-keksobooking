@@ -9,7 +9,7 @@
   var mapPins = function (offers) {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pins.forEach(function (item, index) {
-      window.card.openCard(item, offers[index]);
+      window.card.open(item, offers[index]);
     });
   };
 
@@ -18,13 +18,13 @@
     openMap();
     window.card.renderOffers(offers);
     window.form.enableAdForm();
-    window.pin.mapPinPosition();
+    window.pin.mapPosition();
     mapPins(offers);
 
-    window.pin.mapPinElement.removeEventListener('mouseup', activateMap);
+    window.pin.mapElement.removeEventListener('mouseup', activateMap);
   };
 
-  window.pin.mapPinElement.addEventListener('mouseup', activateMap);
+  window.pin.mapElement.addEventListener('mouseup', activateMap);
 
   var disabledMap = function () {
     for (var i = 0; i < window.form.formInputElement.length; i++) {

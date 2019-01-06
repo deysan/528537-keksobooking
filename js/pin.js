@@ -89,8 +89,8 @@
   });
 
   window.pin = {
-    mapPinElement: mapPinElement,
-    mapPinPosition: mapPinPosition,
+    mapElement: mapPinElement,
+    mapPosition: mapPinPosition,
     generateOffersElement: generateOffersElement
   };
 
