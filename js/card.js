@@ -48,7 +48,7 @@
   };
 
   var openCard = function (pinOnMap, offers) {
-    pinOnMap.addEventListener('click', function addOpenCardClickHandler() {
+    pinOnMap.addEventListener('click', function () {
       removeCard();
       var mapCardOne = window.pin.mapPinElement.appendChild(generateCard(offers));
       addCloseCardClickHandler(mapCardOne);
