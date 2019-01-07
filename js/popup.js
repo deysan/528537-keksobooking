@@ -49,7 +49,7 @@
   // Обработчик отправки формы
   window.form.element.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(form), function () {
+    window.backend.save(new FormData(window.form.element), function () {
       onSuccess();
     }, onError());
   });

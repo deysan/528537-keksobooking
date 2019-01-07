@@ -4,11 +4,11 @@
   var mapPinsElement = document.querySelector('.map__pins');
 
   var openMap = function () {
-    window.pin.mapElement.classList.remove('map--faded');
+    window.pin.map.classList.remove('map--faded');
   };
 
   var closeMap = function () {
-    window.pin.mapElement.classList.add('map--faded');
+    window.pin.map.classList.add('map--faded');
   };
 
   var mapPins = function (offers) {
@@ -46,6 +46,6 @@
 
   window.map = {
     dectivate: dectivateMap
-  }
+  };
 
 })();
