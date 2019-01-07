@@ -3,6 +3,21 @@
 (function () {
 
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
+
+  var renderPhoto = function (array) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < array.offer.photos.length; i++) {
+      var photo = photoTemplate.cloneNode(true);
+      photo.src = array.offer.photos[i];
+      fragment.appendChild(photo);
+    }
+
+    return fragment;
+  };
+
+  // Проверка элементов карточки
 
   // Вывод данных обьявления
   var generateCard = function (offer) {
@@ -16,7 +31,7 @@
     card.querySelector('.popup__features').textContent = offer.offer.features;
     card.querySelector('.popup__description').textContent = offer.offer.description;
     card.querySelector('.popup__photos').textContent = '';
-    card.querySelector('.popup__photos').appendChild(window.data.renderPhoto(offer));
+    card.querySelector('.popup__photos').appendChild(renderPhoto(offer));
     card.querySelector('.popup__avatar').src = offer.author.avatar;
 
     return card;
@@ -27,13 +42,15 @@
     for (var i = 0; i < array.length; i++) {
       fragment.appendChild(window.pin.generateOffersElement(array[i]));
     }
-    window.data.mapElement.appendChild(fragment);
+    // window.pin.mapElement.appendChild(fragment);
+
+    return fragment;
   };
 
   var openCard = function (pinOnMap, offers) {
     pinOnMap.addEventListener('click', function addOpenCardClickHandler() {
       removeCard();
-      var mapCardOne = window.data.mapElement.appendChild(generateCard(offers));
+      var mapCardOne = window.pin.mapPinElement.appendChild(generateCard(offers));
       addCloseCardClickHandler(mapCardOne);
     });
   };
@@ -59,6 +76,7 @@
   };
 
   window.card = {
+    generateCard: generateCard,
     renderOffers: renderOffers,
     open: openCard,
     remove: removeCard

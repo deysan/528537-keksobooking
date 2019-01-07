@@ -1,9 +1,14 @@
 'use strict';
 
 (function () {
+  var mapPinsElement = document.querySelector('.map__pins');
 
   var openMap = function () {
-    window.data.mapElement.classList.remove('map--faded');
+    window.pin.mapElement.classList.remove('map--faded');
+  };
+
+  var closeMap = function () {
+    window.pin.mapElement.classList.add('map--faded');
   };
 
   var mapPins = function (offers) {
@@ -14,24 +19,33 @@
   };
 
   var activateMap = function () {
-    var offers = window.data.generateOffers();
     openMap();
-    window.card.renderOffers(offers);
-    window.form.enableAdForm();
+
+    window.backend.load(function (array) {
+      mapPinsElement.appendChild(window.card.renderOffers(array));
+    }, window.popup.onError);
+
+    window.form.enable();
     window.pin.mapPosition();
-    mapPins(offers);
+    mapPins();
 
     window.pin.mapElement.removeEventListener('mouseup', activateMap);
   };
 
-  window.pin.mapElement.addEventListener('mouseup', activateMap);
-
-  var disabledMap = function () {
-    for (var i = 0; i < window.form.formInputElement.length; i++) {
-      window.form.formInputElement[i].disabled = true;
-    }
+  var dectivateMap = function () {
+    closeMap();
+    // closeCardPopup();
+    window.form.disable();
+    window.pin.remove();
+    // window.form.resetLocationMapPinMain();
   };
 
-  disabledMap();
+  window.pin.mapElement.addEventListener('mouseup', activateMap);
+
+  // activateMap();
+
+  window.map = {
+    dectivate: dectivateMap
+  }
 
 })();

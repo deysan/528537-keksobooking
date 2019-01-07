@@ -12,13 +12,28 @@
   var timesInElement = document.querySelector('#timein');
   var timesOutElement = document.querySelector('#timeout');
 
+  var PRICE_BY_TYPE = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+
   var enableAdForm = function () {
     formElement.classList.remove('ad-form--disabled');
-
     for (var i = 0; i < formInputElement.length; i++) {
       formInputElement[i].disabled = false;
     }
   };
+
+  var disableAdForm = function () {
+    formElement.classList.add('ad-form--disabled');
+    for (var i = 0; i < formInputElement.length; i++) {
+      formInputElement[i].disabled = true;
+    }
+  };
+
+  disableAdForm();
 
   // Функция выбора количества комнат и гостей
   var onCapacityChange = function () {
@@ -60,7 +75,7 @@
 
   typeElement.addEventListener('change', function (evt) {
     priceElement.value = '';
-    minPriceByType(window.data.PRICE_BY_TYPE[evt.target.value]);
+    minPriceByType(PRICE_BY_TYPE[evt.target.value]);
   });
 
   // Синхронизация времени заезда и выезда
@@ -73,9 +88,10 @@
   });
 
   window.form = {
-    formElement: formElement,
+    element: formElement,
     formInputElement: formInputElement,
-    enableAdForm: enableAdForm
+    enable: enableAdForm,
+    disable: disableAdForm
   };
 
 })();
