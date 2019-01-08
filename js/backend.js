@@ -7,7 +7,7 @@
   };
 
   var Url = {
-    LOAD: 'https://js.dump.academy/keksobooking/data',
+    LOAD: 'https://js.dump.academy/keksobooking/dataы',
     SAVE: 'https://js.dump.academy/keksobooking'
   };
 

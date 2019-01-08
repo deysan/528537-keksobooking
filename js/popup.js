@@ -28,8 +28,6 @@
 
     errorButtonHandler();
 
-    window.form.element.reset();
-
     document.addEventListener('keydown', removePopup);
     document.addEventListener('mousedown', removePopup);
   };
@@ -40,12 +38,11 @@
 
     if (popupSuccess) {
       popupSuccess.remove();
+      window.form.element.reset();
     } else if (popupError) {
       popupError.remove();
+      window.map.dectivate();
     }
-
-    window.map.dectivate();
-    window.form.element.reset();
 
     document.removeEventListener('keydown', removePopup);
     document.removeEventListener('mousedown', removePopup);
@@ -61,13 +58,10 @@
 
     buttonError.addEventListener('keydown', function (evt) {
       evt.preventDefault();
-
       if (evt.keyCode === window.util.ENTER_KEYCODE) {
         removePopup();
       }
     });
-
-    window.pin.resetMapPosition();
   };
 
   window.popup = {

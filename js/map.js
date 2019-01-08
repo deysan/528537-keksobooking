@@ -44,6 +44,8 @@
     window.form.disable();
     window.pin.remove();
     window.pin.resetMapPosition();
+    window.form.element.reset();
+    window.pin.mapElement.addEventListener('mouseup', activateMap);
   };
 
   window.pin.mapElement.addEventListener('mouseup', activateMap);

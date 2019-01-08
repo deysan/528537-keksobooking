@@ -37,8 +37,7 @@
   resetFormElement.addEventListener('click', function (evt) {
     evt.preventDefault();
     formElement.reset();
-    window.card.remove();
-    window.pin.resetMapPosition();
+    window.map.dectivate();
   });
 
 
