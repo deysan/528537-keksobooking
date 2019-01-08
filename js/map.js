@@ -2,11 +2,12 @@
 
 (function () {
 
-  var errorElement = document.querySelector('.error');
+  // var errorElement = document.querySelector('.error');
 
   var loadData = function () {
     window.backend.load(function (array) {
       window.pin.mapElements.appendChild(window.card.renderOffers(array));
+      mapPins(array);
     }, window.popup.onError);
   };
 
@@ -28,12 +29,10 @@
   var activateMap = function () {
     loadData();
 
-    if (!errorElement) {
+    if (loadData) {
       openMap();
-
       window.form.enable();
       window.pin.mapPosition();
-      window.backend.load(mapPins, window.popup.onError);
     }
 
     window.pin.mapElement.removeEventListener('mouseup', activateMap);

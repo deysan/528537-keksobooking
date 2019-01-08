@@ -73,11 +73,10 @@
     window.backend.save(new FormData(window.form.element), function () {
       onSuccess();
       window.map.dectivate();
-    }, onError());
+    }, onError);
   });
 
   window.popup = {
-    onSuccess: onSuccess,
     onError: onError
   };
 

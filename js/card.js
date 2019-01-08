@@ -5,6 +5,8 @@
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
 
+  var TYPES = {'palace': 'Дворец', 'flat': 'Квартира', 'house': 'Дом', 'bungalo': 'Бунгало'};
+
   var renderPhoto = function (array) {
     var fragment = document.createDocumentFragment();
 
@@ -17,95 +19,107 @@
     return fragment;
   };
 
+  var renderFeature = function (array) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < array.length; i++) {
+      var featureElement = document.createElement('li');
+      featureElement.className = 'popup__feature popup__feature--' + array[i];
+      fragment.appendChild(featureElement);
+    }
+    return fragment;
+  };
+
   // Проверка элементов карточки
   var renderTitle = function (title, card) {
     var titleElement = card.querySelector('.popup__title');
-    if (title.length === 0) {
-      titleElement.remove();
-    } else {
+    if (title) {
       titleElement.textContent = title;
+    } else {
+      titleElement.remove();
     }
   };
 
   var renderAddress = function (address, card) {
     var adressElement = card.querySelector('.popup__text--address');
-    if (address.length === 0) {
-      adressElement.remove();
-    } else {
+    if (address) {
       adressElement.textContent = address;
+    } else {
+      adressElement.remove();
     }
   };
 
   var renderPrice = function (price, card) {
     var priceElement = card.querySelector('.popup__text--price');
-    if (price.length === 0) {
-      priceElement.remove();
-    } else {
+    if (price) {
       priceElement.textContent = price + ' ₽/ночь';
+    } else {
+      priceElement.remove();
     }
   };
 
   var renderType = function (type, card) {
     var typeElement = card.querySelector('.popup__type');
-    if (type.length === 0) {
-      typeElement.remove();
+    if (type) {
+      typeElement.textContent = TYPES[type];
     } else {
-      typeElement.textContent = type;
+      typeElement.remove();
     }
   };
 
   var renderCapacity = function (rooms, guests, card) {
     var capacityElement = card.querySelector('.popup__text--capacity');
-    if (rooms.length && guests.length === 0) {
-      capacityElement.remove();
-    } else {
+    if (rooms && guests) {
       capacityElement.textContent = rooms + ' комнаты для ' + guests + ' гостей';
+    } else {
+      capacityElement.remove();
     }
   };
 
   var renderTime = function (checkin, checkout, card) {
     var timeElement = card.querySelector('.popup__text--time');
-    if (checkin.length && checkout.length === 0) {
-      timeElement.remove();
-    } else {
+    if (checkin && checkout) {
       timeElement.textContent = 'Заезд после ' + checkin + ', выезд до ' + checkout;
+    } else {
+      timeElement.remove();
     }
   };
 
   var renderFeatures = function (features, card) {
     var featuresElement = card.querySelector('.popup__features');
-    if (features.length === 0) {
-      featuresElement.remove();
+    if (features) {
+      featuresElement.textContent = '';
+      featuresElement.appendChild(renderFeature(features));
     } else {
-      featuresElement = features;
+      featuresElement.remove();
     }
   };
 
   var renderDescription = function (description, card) {
     var descriptionElement = card.querySelector('.popup__description');
-    if (description.length === 0) {
-      descriptionElement.remove();
-    } else {
+    if (description) {
       descriptionElement.textContent = description;
+    } else {
+      descriptionElement.remove();
     }
   };
 
   var renderPhotos = function (photos, card) {
     var photosElement = card.querySelector('.popup__photos');
-    if (photos.length === 0) {
-      photosElement.remove();
-    } else {
+    if (photos) {
       photosElement.textContent = '';
       photosElement.appendChild(renderPhoto(photos));
+    } else {
+      photosElement.remove();
     }
   };
 
   var renderAvatar = function (avatar, card) {
     var avatarElement = card.querySelector('.popup__avatar');
-    if (avatar.length === 0) {
-      avatarElement.remove();
-    } else {
+    if (avatar) {
       avatarElement.src = avatar;
+    } else {
+      avatarElement.remove();
     }
   };
 
@@ -170,7 +184,7 @@
   };
 
   var popupEscHandler = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode !== window.util.ESC_KEYCODE) {
       removeCard();
     }
   };
