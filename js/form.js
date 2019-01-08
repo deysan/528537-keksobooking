@@ -37,7 +37,7 @@
   resetFormElement.addEventListener('click', function (evt) {
     evt.preventDefault();
     formElement.reset();
-    window.map.dectivate();
+    window.map.clear();
   });
 
 
@@ -100,7 +100,7 @@
     evt.preventDefault();
     window.backend.upload(new FormData(formElement), function () {
       window.popup.onSuccess();
-      window.map.dectivate();
+      window.map.clear();
     }, window.popup.onError);
   });
 

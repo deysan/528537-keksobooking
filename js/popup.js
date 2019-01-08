@@ -38,7 +38,7 @@
 
     if (popupSuccess) {
       popupSuccess.remove();
-      window.form.element.reset();
+      window.map.clear();
     } else if (popupError) {
       popupError.remove();
       window.map.dectivate();

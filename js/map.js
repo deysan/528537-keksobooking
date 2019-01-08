@@ -38,24 +38,26 @@
     window.pin.mapElement.removeEventListener('mouseup', activateMap);
   };
 
-  var dectivateMap = function () {
-    closeMap();
+  var clearMap = function () {
     window.card.remove();
-    window.form.disable();
-    window.pin.remove();
     window.pin.resetMapPosition();
     window.form.element.reset();
+  };
+
+  var dectivateMap = function () {
+    clearMap();
+    closeMap();
+    window.form.disable();
+    window.pin.remove();
     window.pin.mapElement.addEventListener('mouseup', activateMap);
   };
 
   window.pin.mapElement.addEventListener('mouseup', activateMap);
 
-
-  // activateMap();
-
   window.map = {
     activate: activateMap,
-    dectivate: dectivateMap
+    dectivate: dectivateMap,
+    clear: clearMap
   };
 
 })();
