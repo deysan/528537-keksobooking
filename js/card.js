@@ -50,7 +50,7 @@
   var openCard = function (pinOnMap, offers) {
     pinOnMap.addEventListener('click', function () {
       removeCard();
-      var mapCardOne = window.pin.mapPinElement.appendChild(generateCard(offers));
+      var mapCardOne = window.pin.mapElements.appendChild(generateCard(offers));
       addCloseCardClickHandler(mapCardOne);
     });
   };

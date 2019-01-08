@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var mapPinsElement = document.querySelector('.map__pins');
 
   var openMap = function () {
     window.pin.map.classList.remove('map--faded');
@@ -22,12 +21,12 @@
     openMap();
 
     window.backend.load(function (array) {
-      mapPinsElement.appendChild(window.card.renderOffers(array));
+      window.pin.mapElements.appendChild(window.card.renderOffers(array));
     }, window.popup.onError);
 
     window.form.enable();
     window.pin.mapPosition();
-    mapPins();
+    window.backend.load(mapPins);
 
     window.pin.mapElement.removeEventListener('mouseup', activateMap);
   };

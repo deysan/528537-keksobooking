@@ -7,6 +7,7 @@
   var mapElement = document.querySelector('.map');
   var mapElementWidth = mapElement.offsetWidth;
   var mapPinElement = document.querySelector('.map__pin');
+  var mapPinsElement = document.querySelector('.map__pins');
   var mapPinMainElement = document.querySelector('.map__pin--main');
   var mapPinMainElementWidth = mapPinMainElement.offsetWidth;
   var mapPinMainElementHeight = mapPinMainElement.offsetHeight;
@@ -116,6 +117,7 @@
   window.pin = {
     map: mapElement,
     mapElement: mapPinElement,
+    mapElements: mapPinsElement,
     mapPosition: mapPinPosition,
     generateOffersElement: generateOffersElement,
     remove: removePins
