@@ -7,8 +7,8 @@
   };
 
   var Url = {
-    LOAD: 'https://js.dump.academy/keksobooking/dataы',
-    SAVE: 'https://js.dump.academy/keksobooking'
+    LOAD: 'https://js.dump.academy/keksobooking/data',
+    UPLOAD: 'https://js.dump.academy/keksobooking'
   };
 
   var prepareRequest = function (onLoad, onError) {
@@ -44,15 +44,15 @@
   };
 
   // Отправка данных
-  var save = function (data, onLoad, onError) {
+  var upload = function (data, onLoad, onError) {
     var xhr = prepareRequest(onLoad, onError);
-    xhr.open('POST', Url.SAVE);
+    xhr.open('POST', Url.UPLOAD);
     xhr.send(data);
   };
 
   window.backend = {
     load: load,
-    save: save
+    upload: upload
   };
 
 })();

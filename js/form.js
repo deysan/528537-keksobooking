@@ -98,7 +98,7 @@
   // Обработчик отправки формы
   formElement.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(formElement), function () {
+    window.backend.upload(new FormData(formElement), function () {
       window.popup.onSuccess();
       window.map.dectivate();
     }, window.popup.onError);
