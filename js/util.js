@@ -4,6 +4,7 @@
 
   window.util = {
     ESC_KEYCODE: 27,
+    ENTER_KEYCODE: 13,
 
     // Случайное число
     getRandomNumber: function (min, max) {
@@ -35,6 +36,7 @@
       }
       return array;
     }
+
   };
 
 })();

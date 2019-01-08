@@ -40,6 +40,15 @@
     addressElement.value = mapPinPositionX + ', ' + mapPinPositionY;
   };
 
+  var mapPinPositionX = Math.round(parseInt(mapPinElement.style.left, 10));
+  var mapPinPositionY = Math.round(parseInt(mapPinElement.style.top, 10));
+
+  var resetMapPinPosition = function () {
+    mapPinElement.style.left = mapPinPositionX + 'px';
+    mapPinElement.style.top = mapPinPositionY + 'px';
+    mapPinPosition();
+  };
+
   // Перемещения главного маркера
   mapPinElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -119,6 +128,7 @@
     mapElement: mapPinElement,
     mapElements: mapPinsElement,
     mapPosition: mapPinPosition,
+    resetMapPosition: resetMapPinPosition,
     generateOffersElement: generateOffersElement,
     remove: removePins
   };

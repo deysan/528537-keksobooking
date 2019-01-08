@@ -26,6 +26,8 @@
     fragment.appendChild(errorElement);
     mainElement.appendChild(fragment);
 
+    onButton();
+
     document.addEventListener('keydown', removePopup);
     document.addEventListener('mousedown', removePopup);
   };
@@ -46,11 +48,31 @@
     document.removeEventListener('mousedown', removePopup);
   };
 
+  var onButton = function () {
+    var buttonError = document.querySelector('.error__button');
+
+    buttonError.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      removePopup();
+    });
+
+    buttonError.addEventListener('keydown', function (evt) {
+      evt.preventDefault();
+
+      if (evt.keyCode === window.util.ENTER_KEYCODE) {
+        removePopup();
+      }
+    });
+
+    window.pin.resetMapPosition();
+  };
+
   // Обработчик отправки формы
   window.form.element.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(window.form.element), function () {
       onSuccess();
+      window.map.dectivate();
     }, onError());
   });
 

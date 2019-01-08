@@ -2,6 +2,14 @@
 
 (function () {
 
+  var errorElement = document.querySelector('.error');
+
+  var loadData = function () {
+    window.backend.load(function (array) {
+      window.pin.mapElements.appendChild(window.card.renderOffers(array));
+    }, window.popup.onError);
+  };
+
   var openMap = function () {
     window.pin.map.classList.remove('map--faded');
   };
@@ -18,28 +26,29 @@
   };
 
   var activateMap = function () {
-    openMap();
+    loadData();
 
-    window.backend.load(function (array) {
-      window.pin.mapElements.appendChild(window.card.renderOffers(array));
-    }, window.popup.onError);
+    if (!errorElement) {
+      openMap();
 
-    window.form.enable();
-    window.pin.mapPosition();
-    window.backend.load(mapPins);
+      window.form.enable();
+      window.pin.mapPosition();
+      window.backend.load(mapPins, window.popup.onError);
+    }
 
     window.pin.mapElement.removeEventListener('mouseup', activateMap);
   };
 
   var dectivateMap = function () {
     closeMap();
-    // closeCardPopup();
+    window.card.remove();
     window.form.disable();
     window.pin.remove();
-    // window.form.resetLocationMapPinMain();
+    window.pin.resetMapPosition();
   };
 
   window.pin.mapElement.addEventListener('mouseup', activateMap);
+
 
   // activateMap();
 
