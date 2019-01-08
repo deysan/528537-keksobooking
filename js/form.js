@@ -37,7 +37,7 @@
   resetFormElement.addEventListener('click', function (evt) {
     evt.preventDefault();
     formElement.reset();
-    window.map.clear();
+    window.map.dectivate();
   });
 
 
