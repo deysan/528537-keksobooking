@@ -52,6 +52,7 @@
   // activateMap();
 
   window.map = {
+    activate: activateMap,
     dectivate: dectivateMap
   };
 

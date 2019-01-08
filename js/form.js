@@ -3,6 +3,7 @@
 (function () {
 
   var formElement = document.querySelector('.ad-form');
+  var resetFormElement = document.querySelector('.ad-form__reset');
   var formInputElement = formElement.querySelectorAll('fieldset');
   var roomNumberElement = document.querySelector('#room_number');
   var capacityElement = document.querySelector('#capacity');
@@ -32,6 +33,14 @@
       formInputElement[i].disabled = true;
     }
   };
+
+  resetFormElement.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    formElement.reset();
+    window.card.remove();
+    window.pin.resetMapPosition();
+  });
+
 
   disableAdForm();
 
@@ -85,6 +94,15 @@
 
   timesOutElement.addEventListener('change', function (evt) {
     timesInElement.value = evt.target.value;
+  });
+
+  // Обработчик отправки формы
+  formElement.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(formElement), function () {
+      window.popup.onSuccess();
+      window.map.dectivate();
+    }, window.popup.onError);
   });
 
   window.form = {

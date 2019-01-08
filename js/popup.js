@@ -26,7 +26,9 @@
     fragment.appendChild(errorElement);
     mainElement.appendChild(fragment);
 
-    onButton();
+    errorButtonHandler();
+
+    window.form.element.reset();
 
     document.addEventListener('keydown', removePopup);
     document.addEventListener('mousedown', removePopup);
@@ -43,12 +45,13 @@
     }
 
     window.map.dectivate();
+    window.form.element.reset();
 
     document.removeEventListener('keydown', removePopup);
     document.removeEventListener('mousedown', removePopup);
   };
 
-  var onButton = function () {
+  var errorButtonHandler = function () {
     var buttonError = document.querySelector('.error__button');
 
     buttonError.addEventListener('click', function (evt) {
@@ -67,16 +70,8 @@
     window.pin.resetMapPosition();
   };
 
-  // Обработчик отправки формы
-  window.form.element.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    window.backend.save(new FormData(window.form.element), function () {
-      onSuccess();
-      window.map.dectivate();
-    }, onError);
-  });
-
   window.popup = {
+    onSuccess: onSuccess,
     onError: onError
   };
 
