@@ -102,7 +102,7 @@
     renderInfo(offer.offer.title, card, '.popup__title', 'text');
     renderInfo(offer.offer.address, card, '.popup__text--address', 'text');
     renderInfo(offer.offer.price, card, '.popup__text--price', 'price');
-    renderInfo(offer.offer.type, card, '.popup__type', 'type')
+    renderInfo(offer.offer.type, card, '.popup__type', 'type');
     renderCapacity(offer.offer.rooms, offer.offer.guests, card);
     renderTime(offer.offer.checkin, offer.offer.checkout, card);
     renderFeatures(offer.offer.features, card);
