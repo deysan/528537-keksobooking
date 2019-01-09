@@ -5,7 +5,12 @@
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
 
-  var TYPES = {'palace': 'Дворец', 'flat': 'Квартира', 'house': 'Дом', 'bungalo': 'Бунгало'};
+  var TYPES = {
+    'palace': 'Дворец',
+    'flat': 'Квартира',
+    'house': 'Дом',
+    'bungalo': 'Бунгало'
+  };
 
   var renderPhoto = function (array) {
     var fragment = document.createDocumentFragment();
@@ -31,18 +36,18 @@
   };
 
   // Проверка элементов карточки
-  var renderInfo = function (info, card, link) {
-    var infoElement = card.querySelector(link);
-    if (info === 'offer.offer.price') {
-      infoElement.textContent = info + ' ₽/ночь';
-    } else if (info === 'offer.offer.type') {
-      infoElement.textContent = TYPES[info];
-    } else if (info) {
-      infoElement.textContent = info;
-    } else {
-      infoElement.remove();
+  var renderInfo = function (info, card, selector, view) {
+    var element = card.querySelector(selector);
+    if (!info) {
+      element.remove();
+    } else if (view === 'price') {
+      element.textContent = info + ' ₽/ночь';
+    } else if (view === 'type') {
+      element.textContent = TYPES[info];
+    } else if (view === 'text' && info) {
+      element.textContent = info;
     }
-  };
+  }
 
   var renderCapacity = function (rooms, guests, card) {
     var capacityElement = card.querySelector('.popup__text--capacity');
@@ -94,14 +99,14 @@
   // Вывод данных обьявления
   var generateCard = function (offer) {
     var card = cardTemplate.cloneNode(true);
-    renderInfo(offer.offer.title, card, '.popup__title');
-    renderInfo(offer.offer.address, card, '.popup__text--address');
-    renderInfo(offer.offer.price, card, '.popup__text--price');
-    renderInfo(offer.offer.type, card, '.popup__type');
+    renderInfo(offer.offer.title, card, '.popup__title', 'text');
+    renderInfo(offer.offer.address, card, '.popup__text--address', 'text');
+    renderInfo(offer.offer.price, card, '.popup__text--price', 'price');
+    renderInfo(offer.offer.type, card, '.popup__type', 'type')
     renderCapacity(offer.offer.rooms, offer.offer.guests, card);
     renderTime(offer.offer.checkin, offer.offer.checkout, card);
     renderFeatures(offer.offer.features, card);
-    renderInfo(offer.offer.description, card, '.popup__description');
+    renderInfo(offer.offer.description, card, '.popup__description', 'text');
     renderPhotos(offer.offer.photos, card);
     renderAvatar(offer.author.avatar, card);
 
