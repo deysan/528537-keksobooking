@@ -124,7 +124,7 @@
   };
 
   var popupEscHandler = function (evt) {
-    if (evt.keyCode !== window.util.ESC_KEYCODE) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
       removeCard();
     }
   };
