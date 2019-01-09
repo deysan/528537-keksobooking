@@ -47,7 +47,7 @@
     } else if (view === 'text' && info) {
       element.textContent = info;
     }
-  }
+  };
 
   var renderCapacity = function (rooms, guests, card) {
     var capacityElement = card.querySelector('.popup__text--capacity');
