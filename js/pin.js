@@ -2,6 +2,11 @@
 
 (function () {
 
+  // Константы
+  var LOCATION_MIN_X = 0;
+  var LOCATION_MIN_Y = 130;
+  var LOCATION_MAX_Y = 630;
+
   // Переменные
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapElement = document.querySelector('.map');
@@ -14,14 +19,9 @@
   var mapPinMainElementAfter = window.getComputedStyle(mapPinMainElement, '::after');
   var mapPinMainElementAfterHeight = parseInt(mapPinMainElementAfter.height, 10);
   var addressElement = document.querySelector('#address');
-
-  // Константы
-  var LOCATION_MIN_X = 0;
-  var LOCATION_MAX_X = mapElementWidth - mapPinMainElementWidth;
-  var LOCATION_MIN_Y = 130;
-  var LOCATION_MAX_Y = 630;
-  var PIN_HALF_WIDTH = mapPinMainElementWidth / 2;
-  var PIN_HALF_HEIGHT = mapPinMainElementHeight + mapPinMainElementAfterHeight / 2;
+  var locationMaxX = mapElementWidth - mapPinMainElementWidth;
+  var pinHalfWidth = mapPinMainElementWidth / 2;
+  var pinHalfHeight = mapPinMainElementHeight + mapPinMainElementAfterHeight / 2;
 
   var generateOffersElement = function (offer) {
     var pin = pinTemplate.cloneNode(true);
@@ -35,8 +35,8 @@
   };
 
   var mapPinPosition = function () {
-    var mapPinPositionX = Math.round(parseInt(mapPinElement.style.left, 10) + PIN_HALF_WIDTH);
-    var mapPinPositionY = Math.round(parseInt(mapPinElement.style.top, 10) + PIN_HALF_HEIGHT);
+    var mapPinPositionX = Math.round(parseInt(mapPinElement.style.left, 10) + pinHalfWidth);
+    var mapPinPositionY = Math.round(parseInt(mapPinElement.style.top, 10) + pinHalfHeight);
     addressElement.value = mapPinPositionX + ', ' + mapPinPositionY;
   };
 
@@ -78,12 +78,12 @@
 
       var minCoords = {
         x: Math.floor(LOCATION_MIN_X),
-        y: Math.floor(LOCATION_MIN_Y - PIN_HALF_HEIGHT)
+        y: Math.floor(LOCATION_MIN_Y - pinHalfHeight)
       };
 
       var maxCoords = {
-        x: Math.floor(LOCATION_MAX_X),
-        y: Math.floor(LOCATION_MAX_Y - PIN_HALF_HEIGHT)
+        x: Math.floor(locationMaxX),
+        y: Math.floor(LOCATION_MAX_Y - pinHalfHeight)
       };
 
       if (newCoords.x < minCoords.x) {
