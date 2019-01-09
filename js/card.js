@@ -44,6 +44,14 @@
       element.textContent = info + ' ₽/ночь';
     } else if (view === 'type') {
       element.textContent = TYPES[info];
+    } else if (view === 'features') {
+      element.textContent = '';
+      element.appendChild(renderFeature(info));
+    } else if (view === 'photos') {
+      element.textContent = '';
+      element.appendChild(renderPhoto(info));
+    } else if (view === 'avatar') {
+      element.src = info;
     } else if (view === 'text' && info) {
       element.textContent = info;
     }
@@ -67,35 +75,6 @@
     }
   };
 
-  var renderFeatures = function (features, card) {
-    var featuresElement = card.querySelector('.popup__features');
-    if (features) {
-      featuresElement.textContent = '';
-      featuresElement.appendChild(renderFeature(features));
-    } else {
-      featuresElement.remove();
-    }
-  };
-
-  var renderPhotos = function (photos, card) {
-    var photosElement = card.querySelector('.popup__photos');
-    if (photos) {
-      photosElement.textContent = '';
-      photosElement.appendChild(renderPhoto(photos));
-    } else {
-      photosElement.remove();
-    }
-  };
-
-  var renderAvatar = function (avatar, card) {
-    var avatarElement = card.querySelector('.popup__avatar');
-    if (avatar) {
-      avatarElement.src = avatar;
-    } else {
-      avatarElement.remove();
-    }
-  };
-
   // Вывод данных обьявления
   var generateCard = function (offer) {
     var card = cardTemplate.cloneNode(true);
@@ -105,10 +84,10 @@
     renderInfo(offer.offer.type, card, '.popup__type', 'type');
     renderCapacity(offer.offer.rooms, offer.offer.guests, card);
     renderTime(offer.offer.checkin, offer.offer.checkout, card);
-    renderFeatures(offer.offer.features, card);
+    renderInfo(offer.offer.features, card, '.popup__features', 'features');
     renderInfo(offer.offer.description, card, '.popup__description', 'text');
-    renderPhotos(offer.offer.photos, card);
-    renderAvatar(offer.author.avatar, card);
+    renderInfo(offer.offer.photos, card, '.popup__photos', 'photos');
+    renderInfo(offer.author.avatar, card, '.popup__avatar', 'avatar');
 
     return card;
   };
