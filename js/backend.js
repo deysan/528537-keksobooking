@@ -27,7 +27,7 @@
           onError('Неверный запрос');
           break;
         case Code.NOT_FOUND:
-          onError('Ничего не найдено');
+          onError('Данные по запросу не найдены');
           break;
         case Code.SERVER_ERROR:
           onError('Внутренняя ошибка сервера');

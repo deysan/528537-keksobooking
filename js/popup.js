@@ -10,7 +10,7 @@
 
   var onSuccess = function () {
     var fragment = document.createDocumentFragment();
-    var successElement = successTemplate.content.querySelector('.success');
+    var successElement = successTemplate.content.querySelector('.success').cloneNode(true);
 
     fragment.appendChild(successElement);
     mainElement.appendChild(fragment);
@@ -19,9 +19,13 @@
     document.addEventListener('mousedown', removePopup);
   };
 
-  var onError = function () {
+  var onError = function (errorMessage) {
     var fragment = document.createDocumentFragment();
-    var errorElement = errorTemplate.content.querySelector('.error');
+    var errorElement = errorTemplate.content.querySelector('.error').cloneNode(true);
+
+    if (errorMessage) {
+      errorElement.querySelector('.error__message').textContent = errorMessage;
+    }
 
     fragment.appendChild(errorElement);
     mainElement.appendChild(fragment);
