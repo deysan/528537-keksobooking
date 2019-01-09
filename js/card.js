@@ -31,39 +31,16 @@
   };
 
   // Проверка элементов карточки
-  var renderTitle = function (title, card) {
-    var titleElement = card.querySelector('.popup__title');
-    if (title) {
-      titleElement.textContent = title;
+  var renderInfo = function (info, card, link) {
+    var infoElement = card.querySelector(link);
+    if (info === 'offer.offer.price') {
+      infoElement.textContent = info + ' ₽/ночь';
+    } else if (info === 'offer.offer.type') {
+      infoElement.textContent = TYPES[info];
+    } else if (info) {
+      infoElement.textContent = info;
     } else {
-      titleElement.remove();
-    }
-  };
-
-  var renderAddress = function (address, card) {
-    var adressElement = card.querySelector('.popup__text--address');
-    if (address) {
-      adressElement.textContent = address;
-    } else {
-      adressElement.remove();
-    }
-  };
-
-  var renderPrice = function (price, card) {
-    var priceElement = card.querySelector('.popup__text--price');
-    if (price) {
-      priceElement.textContent = price + ' ₽/ночь';
-    } else {
-      priceElement.remove();
-    }
-  };
-
-  var renderType = function (type, card) {
-    var typeElement = card.querySelector('.popup__type');
-    if (type) {
-      typeElement.textContent = TYPES[type];
-    } else {
-      typeElement.remove();
+      infoElement.remove();
     }
   };
 
@@ -95,15 +72,6 @@
     }
   };
 
-  var renderDescription = function (description, card) {
-    var descriptionElement = card.querySelector('.popup__description');
-    if (description) {
-      descriptionElement.textContent = description;
-    } else {
-      descriptionElement.remove();
-    }
-  };
-
   var renderPhotos = function (photos, card) {
     var photosElement = card.querySelector('.popup__photos');
     if (photos) {
@@ -126,14 +94,14 @@
   // Вывод данных обьявления
   var generateCard = function (offer) {
     var card = cardTemplate.cloneNode(true);
-    renderTitle(offer.offer.title, card);
-    renderAddress(offer.offer.address, card);
-    renderPrice(offer.offer.price, card);
-    renderType(offer.offer.type, card);
+    renderInfo(offer.offer.title, card, '.popup__title');
+    renderInfo(offer.offer.address, card, '.popup__text--address');
+    renderInfo(offer.offer.price, card, '.popup__text--price');
+    renderInfo(offer.offer.type, card, '.popup__type');
     renderCapacity(offer.offer.rooms, offer.offer.guests, card);
     renderTime(offer.offer.checkin, offer.offer.checkout, card);
     renderFeatures(offer.offer.features, card);
-    renderDescription(offer.offer.description, card);
+    renderInfo(offer.offer.description, card, '.popup__description');
     renderPhotos(offer.offer.photos, card);
     renderAvatar(offer.author.avatar, card);
 
