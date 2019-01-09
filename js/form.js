@@ -40,7 +40,6 @@
     window.map.dectivate();
   });
 
-
   disableAdForm();
 
   // Функция выбора количества комнат и гостей
@@ -100,7 +99,6 @@
     evt.preventDefault();
     window.backend.upload(new FormData(formElement), function () {
       window.popup.onSuccess();
-      window.map.clear();
     }, window.popup.onError);
   });
 

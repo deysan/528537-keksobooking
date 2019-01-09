@@ -40,13 +40,15 @@
 
   var clearMap = function () {
     window.card.remove();
-    window.pin.resetMapPosition();
     window.form.element.reset();
+    window.pin.resetMapPosition();
   };
 
   var dectivateMap = function () {
-    clearMap();
     closeMap();
+    window.card.remove();
+    window.pin.resetMapPosition();
+    window.form.element.reset();
     window.form.disable();
     window.pin.remove();
     window.pin.mapElement.addEventListener('mouseup', activateMap);
