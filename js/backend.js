@@ -3,7 +3,10 @@
 (function () {
 
   var Code = {
-    SUCCESS: 200
+    SUCCESS: 200,
+    BAD_REQUEST: 400,
+    NOT_FOUND: 404,
+    SERVER_ERROR: 500
   };
 
   var Url = {
@@ -16,10 +19,21 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === Code.SUCCESS) {
-        onLoad(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      switch (xhr.status) {
+        case Code.SUCCESS:
+          onLoad(xhr.response);
+          break;
+        case Code.BAD_REQUEST:
+          onError('Неверный запрос');
+          break;
+        case Code.NOT_FOUND:
+          onError('Ничего не найдено');
+          break;
+        case Code.SERVER_ERROR:
+          onError('Внутренняя ошибка сервера');
+          break;
+        default:
+          onError('Неизвестный результат ошибки: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
