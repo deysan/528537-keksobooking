@@ -61,21 +61,21 @@
   };
 
   var enableAdForm = function () {
-    for (var i = 0; i < filterInputElement.length; i++) {
-      filterInputElement[i].disabled = false;
-    }
-    for (var i = 0; i < filterSelectElement.length; i++) {
-      filterSelectElement[i].disabled = false;
-    }
+    filterInputElement.forEach(function (element) {
+      element.removeAttribute('disabled');
+    });
+    filterSelectElement.forEach(function (element) {
+      element.removeAttribute('disabled');
+    });
   };
 
   var disableAdForm = function () {
-    for (var i = 0; i < filterInputElement.length; i++) {
-      filterInputElement[i].disabled = true;
-    }
-    for (var i = 0; i < filterSelectElement.length; i++) {
-      filterSelectElement[i].disabled = true;
-    }
+    filterInputElement.forEach(function (element) {
+      element.setAttribute('disabled', true);
+    });
+    filterSelectElement.forEach(function (element) {
+      element.setAttribute('disabled', true);
+    });
   };
 
   disableAdForm();
