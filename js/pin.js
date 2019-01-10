@@ -126,7 +126,7 @@
   var updatePins = function (array) {
     mapPinsElement.appendChild(window.card.renderOffers(window.filter.offer(array)));
     window.map.pins(array);
-};
+  };
 
   window.pin = {
     map: mapElement,
