@@ -55,6 +55,7 @@
     var filterOffer = array.filter(function (offer) {
       return (filteredType(offer) && filteredPrice(offer) && filteredRooms(offer) && filteredGuests(offer) && filteredFeatures(offer));
     });
+    console.log(filterOffer);
     return filterOffer;
   };
 

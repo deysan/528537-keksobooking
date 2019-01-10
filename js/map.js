@@ -4,11 +4,9 @@
 
   var loadData = function () {
     window.backend.load(function (array) {
-      var copyData = array.slice();
-      window.pin.update(copyData);
       window.filter.change(function () {
         window.card.remove();
-        window.pin.update(array);
+        mapPins(array);
       });
       mapPins(array);
     }, window.popup.onError);
@@ -23,9 +21,11 @@
   };
 
   var mapPins = function (offers) {
+    var offer = window.filter.offer(offers);
+    window.pin.mapElements.appendChild(window.card.renderOffers(offer));
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pins.forEach(function (item, index) {
-      window.card.open(item, offers[index]);
+      window.card.open(item, offer[index]);
     });
   };
 
@@ -63,7 +63,7 @@
     activate: activateMap,
     dectivate: dectivateMap,
     clear: clearMap,
-    pins: mapPins,
+    pins: mapPins
   };
 
 })();
