@@ -4,14 +4,18 @@
 
   var loadData = function () {
     window.backend.load(function (array) {
-      window.filter.change(function () {
-        window.debounce(function () {
-          window.card.remove();
-          mapPins(array);
-        });
-      });
+      filterData(array);
       mapPins(array);
     }, window.popup.onError);
+  };
+
+  var filterData = function (array) {
+    window.filter.change(function () {
+      window.debounce(function () {
+        window.card.remove();
+        mapPins(array);
+      });
+    });
   };
 
   var openMap = function () {
