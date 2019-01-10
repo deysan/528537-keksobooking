@@ -2,6 +2,8 @@
 
 (function () {
 
+  var OFFERS_NUMBER = 5;
+
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var photoTemplate = document.querySelector('#card').content.querySelector('.popup__photo');
 
@@ -94,8 +96,9 @@
 
   var renderOffers = function (array) {
     var fragment = document.createDocumentFragment();
+    var takeNumber = array.length > OFFERS_NUMBER ? OFFERS_NUMBER : array.length;
     window.pin.remove();
-    for (var i = 0; i < array.length; i++) {
+    for (var i = 0; i < takeNumber; i++) {
       fragment.appendChild(window.pin.generateOffersElement(array[i]));
     }
 
