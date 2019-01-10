@@ -34,12 +34,6 @@
     }
   };
 
-  resetFormElement.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    formElement.reset();
-    window.map.dectivate();
-  });
-
   disableAdForm();
 
   // Функция выбора количества комнат и гостей
@@ -106,7 +100,8 @@
     element: formElement,
     formInputElement: formInputElement,
     enable: enableAdForm,
-    disable: disableAdForm
+    disable: disableAdForm,
+    reset: resetFormElement
   };
 
 })();
