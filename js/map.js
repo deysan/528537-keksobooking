@@ -5,8 +5,10 @@
   var loadData = function () {
     window.backend.load(function (array) {
       window.filter.change(function () {
-        window.card.remove();
-        mapPins(array);
+        window.debounce(function () {
+          window.card.remove();
+          mapPins(array);
+        });
       });
       mapPins(array);
     }, window.popup.onError);
