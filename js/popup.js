@@ -42,11 +42,11 @@
 
     if (popupSuccess) {
       popupSuccess.remove();
-      window.map.clear();
     } else if (popupError) {
       popupError.remove();
-      window.map.dectivate();
     }
+
+    window.map.dectivate();
 
     document.removeEventListener('keydown', removePopup);
     document.removeEventListener('mousedown', removePopup);

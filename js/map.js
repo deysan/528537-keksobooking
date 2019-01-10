@@ -35,16 +35,11 @@
     if (loadData) {
       openMap();
       window.form.enable();
+      window.filter.enable();
       window.pin.mapPosition();
     }
 
     window.pin.mapElement.removeEventListener('mouseup', activateMap);
-  };
-
-  var clearMap = function () {
-    window.card.remove();
-    window.form.element.reset();
-    window.pin.resetMapPosition();
   };
 
   var dectivateMap = function () {
@@ -53,16 +48,23 @@
     window.pin.resetMapPosition();
     window.form.element.reset();
     window.form.disable();
+    window.filter.element.reset();
+    window.filter.disable();
     window.pin.remove();
     window.pin.mapElement.addEventListener('mouseup', activateMap);
   };
 
   window.pin.mapElement.addEventListener('mouseup', activateMap);
 
+  window.form.reset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.form.element.reset();
+    window.map.dectivate();
+  });
+
   window.map = {
     activate: activateMap,
     dectivate: dectivateMap,
-    clear: clearMap,
     pins: mapPins
   };
 
