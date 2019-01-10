@@ -2,6 +2,9 @@
 
 (function () {
 
+  var MIN_PRICE = 10000;
+  var MAX_PRICE = 50000;
+
   var mapFiltersElement = document.querySelector('.map__filters');
   var filterTypeElement = document.querySelector('#housing-type');
   var filterPriceElement = document.querySelector('#housing-price');
@@ -12,11 +15,11 @@
 
   var filteredPrice = function (offer) {
     if (filterPriceElement.value === 'low') {
-      return (10000 > offer.offer.price);
+      return (MIN_PRICE > offer.offer.price);
     } else if (filterPriceElement.value === 'middle') {
-      return (10000 <= offer.offer.price && offer.offer.price < 50000);
+      return (MIN_PRICE <= offer.offer.price && offer.offer.price < MAX_PRICE);
     } else if (filterPriceElement.value === 'high') {
-      return (50000 <= offer.offer.price);
+      return (MAX_PRICE <= offer.offer.price);
     }
     return true;
 };
