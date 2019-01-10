@@ -10,6 +10,7 @@
   var filterPriceElement = document.querySelector('#housing-price');
   var filterRoomsElement = document.querySelector('#housing-rooms');
   var filterGuestsElement = document.querySelector('#housing-guests');
+  var filterFeaturesElement = document.querySelector('#housing-features');
 
   var filteredType = function (offer) {
     return (filterTypeElement.value === 'any' || filterTypeElement.value === offer.offer.type);
@@ -34,6 +35,16 @@
     return (Number(filterGuestsElement.value) === offer.offer.guests || filterGuestsElement.value === 'any');
   };
 
+  var filteredFeatures = function (offer) {
+    var checkedFeatures = filterFeaturesElement.querySelectorAll('input:checked');
+    var feature = true;
+    Array.from(checkedFeatures).every(function (checkbox) {
+      feature = offer.offer.features.indexOf(checkbox.value) !== -1;
+      return feature;
+    });
+    return feature;
+  };
+
   var onFilterChange = function (func) {
     mapFiltersElement.addEventListener('change', func);
   };
@@ -42,7 +53,7 @@
     window.card.remove();
     window.pin.remove();
     var filterOffer = array.filter(function (offer) {
-      return (filteredType(offer) && filteredPrice(offer) && filteredRooms(offer) && filteredGuests(offer));
+      return (filteredType(offer) && filteredPrice(offer) && filteredRooms(offer) && filteredGuests(offer) && filteredFeatures(offer));
     });
     return filterOffer;
   };
