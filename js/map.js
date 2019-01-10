@@ -2,11 +2,14 @@
 
 (function () {
 
-  // var errorElement = document.querySelector('.error');
-
   var loadData = function () {
     window.backend.load(function (array) {
-      window.pin.mapElements.appendChild(window.card.renderOffers(array));
+      var copyData = array.slice();
+      window.pin.update(copyData);
+      window.filter.change(function () {
+        window.card.remove();
+        window.pin.update(array);
+      });
       mapPins(array);
     }, window.popup.onError);
   };
@@ -59,7 +62,8 @@
   window.map = {
     activate: activateMap,
     dectivate: dectivateMap,
-    clear: clearMap
+    clear: clearMap,
+    pins: mapPins,
   };
 
 })();

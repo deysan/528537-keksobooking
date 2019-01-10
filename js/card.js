@@ -94,6 +94,7 @@
 
   var renderOffers = function (array) {
     var fragment = document.createDocumentFragment();
+    // window.pin.remove();
     for (var i = 0; i < array.length; i++) {
       fragment.appendChild(window.pin.generateOffersElement(array[i]));
     }

@@ -123,6 +123,11 @@
     }
   };
 
+  var updatePins = function (array) {
+    mapPinsElement.appendChild(window.card.renderOffers(window.filter.offer(array)));
+    window.map.pins(array);
+};
+
   window.pin = {
     map: mapElement,
     mapElement: mapPinElement,
@@ -130,7 +135,8 @@
     mapPosition: mapPinPosition,
     resetMapPosition: resetMapPinPosition,
     generateOffersElement: generateOffersElement,
-    remove: removePins
+    remove: removePins,
+    update: updatePins
   };
 
 })();
