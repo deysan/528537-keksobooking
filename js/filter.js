@@ -14,11 +14,11 @@
   var filterInputElement = filtersElement.querySelectorAll('input[type="checkbox"]');
   var filterSelectElement = filtersElement.querySelectorAll('select');
 
-  var filteredType = function (offer) {
+  var filterType = function (offer) {
     return (filterTypeElement.value === 'any' || filterTypeElement.value === offer.offer.type);
   };
 
-  var filteredPrice = function (offer) {
+  var filterPrice = function (offer) {
     if (filterPriceElement.value === 'low') {
       return (MIN_PRICE > offer.offer.price);
     } else if (filterPriceElement.value === 'middle') {
@@ -29,15 +29,15 @@
     return true;
   };
 
-  var filteredRooms = function (offer) {
+  var filterRoom = function (offer) {
     return (Number(filterRoomsElement.value) === offer.offer.rooms || filterRoomsElement.value === 'any');
   };
 
-  var filteredGuests = function (offer) {
+  var filterGuests = function (offer) {
     return (Number(filterGuestsElement.value) === offer.offer.guests || filterGuestsElement.value === 'any');
   };
 
-  var filteredFeatures = function (offer) {
+  var filterFeatures = function (offer) {
     var checkedFeatures = filterFeaturesElement.querySelectorAll('input:checked');
     var feature = true;
     Array.from(checkedFeatures).every(function (checkbox) {
@@ -51,11 +51,11 @@
     filtersElement.addEventListener('change', func);
   };
 
-  var filteredOffer = function (array) {
+  var filterOffers = function (array) {
     window.card.remove();
     window.pin.remove();
     var filterOffer = array.filter(function (offer) {
-      return (filteredType(offer) && filteredPrice(offer) && filteredRooms(offer) && filteredGuests(offer) && filteredFeatures(offer));
+      return (filterType(offer) && filterPrice(offer) && filterRoom(offer) && filterGuests(offer) && filterFeatures(offer));
     });
     return filterOffer;
   };
@@ -83,7 +83,7 @@
   window.filter = {
     element: filtersElement,
     change: onFilterChange,
-    offer: filteredOffer,
+    offer: filterOffers,
     disable: disableAdForm,
     enable: enableAdForm
   };
