@@ -3,6 +3,7 @@
 (function () {
 
   var formElement = document.querySelector('.ad-form');
+  var resetFormElement = document.querySelector('.ad-form__reset');
   var formInputElement = formElement.querySelectorAll('fieldset');
   var roomNumberElement = document.querySelector('#room_number');
   var capacityElement = document.querySelector('#capacity');
@@ -12,13 +13,34 @@
   var timesInElement = document.querySelector('#timein');
   var timesOutElement = document.querySelector('#timeout');
 
+  var PRICE_BY_TYPE = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+
   var enableAdForm = function () {
     formElement.classList.remove('ad-form--disabled');
-
     for (var i = 0; i < formInputElement.length; i++) {
       formInputElement[i].disabled = false;
     }
   };
+
+  var disableAdForm = function () {
+    formElement.classList.add('ad-form--disabled');
+    for (var i = 0; i < formInputElement.length; i++) {
+      formInputElement[i].disabled = true;
+    }
+  };
+
+  resetFormElement.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    formElement.reset();
+    window.map.dectivate();
+  });
+
+  disableAdForm();
 
   // Функция выбора количества комнат и гостей
   var onCapacityChange = function () {
@@ -60,7 +82,7 @@
 
   typeElement.addEventListener('change', function (evt) {
     priceElement.value = '';
-    minPriceByType(window.data.PRICE_BY_TYPE[evt.target.value]);
+    minPriceByType(PRICE_BY_TYPE[evt.target.value]);
   });
 
   // Синхронизация времени заезда и выезда
@@ -72,10 +94,19 @@
     timesInElement.value = evt.target.value;
   });
 
+  // Обработчик отправки формы
+  formElement.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.upload(new FormData(formElement), function () {
+      window.popup.onSuccess();
+    }, window.popup.onError);
+  });
+
   window.form = {
-    formElement: formElement,
+    element: formElement,
     formInputElement: formInputElement,
-    enableAdForm: enableAdForm
+    enable: enableAdForm,
+    disable: disableAdForm
   };
 
 })();

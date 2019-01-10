@@ -2,8 +2,21 @@
 
 (function () {
 
+  // var errorElement = document.querySelector('.error');
+
+  var loadData = function () {
+    window.backend.load(function (array) {
+      window.pin.mapElements.appendChild(window.card.renderOffers(array));
+      mapPins(array);
+    }, window.popup.onError);
+  };
+
   var openMap = function () {
-    window.data.mapElement.classList.remove('map--faded');
+    window.pin.map.classList.remove('map--faded');
+  };
+
+  var closeMap = function () {
+    window.pin.map.classList.add('map--faded');
   };
 
   var mapPins = function (offers) {
@@ -14,24 +27,39 @@
   };
 
   var activateMap = function () {
-    var offers = window.data.generateOffers();
-    openMap();
-    window.card.renderOffers(offers);
-    window.form.enableAdForm();
-    window.pin.mapPosition();
-    mapPins(offers);
+    loadData();
+
+    if (loadData) {
+      openMap();
+      window.form.enable();
+      window.pin.mapPosition();
+    }
 
     window.pin.mapElement.removeEventListener('mouseup', activateMap);
   };
 
-  window.pin.mapElement.addEventListener('mouseup', activateMap);
-
-  var disabledMap = function () {
-    for (var i = 0; i < window.form.formInputElement.length; i++) {
-      window.form.formInputElement[i].disabled = true;
-    }
+  var clearMap = function () {
+    window.card.remove();
+    window.form.element.reset();
+    window.pin.resetMapPosition();
   };
 
-  disabledMap();
+  var dectivateMap = function () {
+    closeMap();
+    window.card.remove();
+    window.pin.resetMapPosition();
+    window.form.element.reset();
+    window.form.disable();
+    window.pin.remove();
+    window.pin.mapElement.addEventListener('mouseup', activateMap);
+  };
+
+  window.pin.mapElement.addEventListener('mouseup', activateMap);
+
+  window.map = {
+    activate: activateMap,
+    dectivate: dectivateMap,
+    clear: clearMap
+  };
 
 })();
