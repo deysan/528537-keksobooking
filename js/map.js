@@ -69,9 +69,7 @@
   });
 
   window.map = {
-    activate: activateMap,
-    dectivate: dectivateMap,
-    pins: mapPins
+    dectivate: dectivateMap
   };
 
 })();

@@ -116,11 +116,9 @@
 
   var removePins = function () {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    if (pins) {
       pins.forEach(function (item) {
         item.remove();
       });
-    }
   };
 
   window.pin = {

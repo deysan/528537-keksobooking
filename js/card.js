@@ -134,7 +134,6 @@
   };
 
   window.card = {
-    generateCard: generateCard,
     renderOffers: renderOffers,
     open: openCard,
     remove: removeCard
